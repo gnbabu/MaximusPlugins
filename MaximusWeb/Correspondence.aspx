@@ -108,6 +108,17 @@
             </div>
         </div>
 
+        <br />
+        <div class="page-card">
+            <div class="page-card-header">
+                Afiliations <i class="bi bi-info-circle"></i>
+            </div>
+            <div class="p-3 table-responsive">
+                <div id="hospital-affiliation-grid-container" class="d-none"></div>
+            </div>
+        </div>
+
+
     </div>
     <!-- Vendor JS -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
@@ -129,10 +140,12 @@
     <!-- Services -->
     <script src="Scripts/services/correspondence.service.js"></script>
     <script src="Scripts/services/provider-group.service.js"></script>
+    <script src="Scripts/services/hospital-affiliation.service.js"></script>
 
     <!-- Page -->
     <script src="Scripts/pages/correspondence.js"></script>
     <script src="Scripts/pages/provider-group.js"></script>
+    <script src="Scripts/pages/hospital-affiliation.js"></script>
 
 
 
