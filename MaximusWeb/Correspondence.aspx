@@ -98,6 +98,15 @@
                 <div id="correspondence-grid-container" class="d-none"></div>
             </div>
         </div>
+        <br />
+        <div class="page-card">
+            <div class="page-card-header">
+                Groups <i class="bi bi-info-circle"></i>
+            </div>
+            <div class="p-3 table-responsive">
+                <div id="provider-groups-grid-container" class="d-none"></div>
+            </div>
+        </div>
 
     </div>
     <!-- Vendor JS -->
@@ -119,9 +128,11 @@
 
     <!-- Services -->
     <script src="Scripts/services/correspondence.service.js"></script>
+    <script src="Scripts/services/provider-group.service.js"></script>
 
     <!-- Page -->
     <script src="Scripts/pages/correspondence.js"></script>
+    <script src="Scripts/pages/provider-group.js"></script>
 
 
 

@@ -155,6 +155,7 @@
     <Content Include="Scripts\core\api.service.js" />
     <Content Include="Scripts\core\config.js" />
     <Content Include="Scripts\pages\correspondence.js" />
+    <Content Include="Scripts\pages\provider-group.js" />
     <Content Include="Scripts\plugins\datagrid\maximus.datagrid.plugin.js" />
     <Content Include="Scripts\jquery-3.7.0.js" />
     <Content Include="Scripts\jquery-3.7.0.min.js" />
@@ -162,6 +163,7 @@
     <Content Include="Scripts\jquery-3.7.0.slim.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\services\correspondence.service.js" />
+    <Content Include="Scripts\services\provider-group.service.js" />
     <Content Include="Scripts\WebForms\DetailsView.js" />
     <Content Include="Scripts\WebForms\Focus.js" />
     <Content Include="Scripts\WebForms\GridView.js" />
