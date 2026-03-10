@@ -5,6 +5,7 @@
     font-size: 14px;
     background: #fff;
     border: 1px solid #e2dff0;
+
 }
 
     /* ================= HEADER ================= */
@@ -12,12 +13,12 @@
     table.maximus-base-table thead th {
         background: #ffffff; /* light grey-purple like screenshot */
         color: #444;
-        font-weight: 600;
+        font-weight: 700;
         font-size: 13px;
         padding: 10px 14px;
-        border-bottom: 1px solid #ddd;
-        white-space: nowrap;
+        border-bottom: 1px solid #ddd !important;
         vertical-align: middle;
+        word-wrap:break-word;
     }
 
     /* ================= FILTER INPUT ================= */
@@ -82,20 +83,20 @@
 
     table.maximus-base-table tbody tr td.text-center {
         color: #777;
-        font-style: italic;
+        font-size: 14px !important;
     }
 
 /* ================= PAGINATION ================= */
 
 .pagination .page-item.active .page-link {
-    background-color: #6e42a3;
-    border-color: #6e42a3;
-    color: #fff;
+    background-color: #6e42a3 !important;
+    border-color: #6e42a3 !important;
+    color: #fff !important;
 }
 
 .pagination .page-link {
-    color: #6e42a3;
-    font-size: 14px;
+    color: #6e42a3 !important;
+    font-size: 14px !important;
 }
 
 .sort-icon {

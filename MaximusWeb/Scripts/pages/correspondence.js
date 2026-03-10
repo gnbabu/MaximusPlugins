@@ -35,7 +35,7 @@ function renderCorrespondenceGrid(data) {
                     key: 'subject',
                     title: 'Correspondence Subject',
                     type: 'text',
-                    sortable: true,
+                    sortable: true,                    
                     cellTemplate: function (row) {
                         return `
                         <a href="javascript:void(0)"
@@ -59,7 +59,7 @@ function renderCorrespondenceGrid(data) {
             idProperty: 'correspondenceId',
 
             enableAllColumnSearch: false,
-            enableColumnFilters: false,
+            enableColumnFilters: true,
             enableSorting: true,
 
             dateFormat: 'MM-DD-YYYY',

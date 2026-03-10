@@ -84,7 +84,7 @@
                 }
 
                 const $th = $('<th scope="col"></th>');
-                if (col.width) $th.css('width', col.width);
+                if (col.width) $th.css('width', col.width);  // Apply the column width here
 
                 const hasTitle = col.title != null && col.title !== '';
                 const labelText = hasTitle ? col.title + sortIcon : '';
@@ -333,7 +333,7 @@
 
             if (paged.length === 0) {
                 const colspan = settings.columns.filter(col => visibleColumns[col.key]).length;
-                $tbody.append(`<tr><td colspan="${colspan}" class="text-center">${settings.noDataMessage}</td></tr>`);
+                $tbody.append(`<tr><td colspan="${colspan}" class="text-center no-records">${settings.noDataMessage}</td></tr>`);
             } else {
                 paged.forEach(row => {
                     const $tr = $('<tr class="dg-data-row">');
@@ -471,10 +471,7 @@
             $element.html(`
                 <h3>${settings.gridTitle}</h3>
                 <div class="row mb-3">
-                    <div class="col-md-6 d-flex align-items-center flex-wrap gap-2">
-                        ${settings.enableColumnFilters ? `<button id="reset-all-filters" type="button" class="btn btn-danger btn-sm ms-2">Reset All Filters</button>` : ''}                                              
-                    </div>
-
+                   
                     ${settings.enableAllColumnSearch ? `
                     <div class="col-md-6 d-flex align-items-center justify-content-md-end mt-2 mt-md-0">
                         <label for="common-search" class="form-label mb-0 me-2">Search:</label>
