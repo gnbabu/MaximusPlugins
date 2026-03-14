@@ -151,12 +151,14 @@
     <Content Include="Content\bootstrap-grid.rtl.css.map" />
     <Content Include="Content\bootstrap-grid.min.css.map" />
     <Content Include="Content\bootstrap-grid.css.map" />
+    <Content Include="WorkHistory.aspx" />
     <None Include="Scripts\jquery-3.7.0.intellisense.js" />
     <Content Include="Scripts\core\api.service.js" />
     <Content Include="Scripts\core\config.js" />
     <Content Include="Scripts\pages\correspondence.js" />
     <Content Include="Scripts\pages\hospital-affiliation.js" />
     <Content Include="Scripts\pages\provider-group.js" />
+    <Content Include="Scripts\pages\work-history.js" />
     <Content Include="Scripts\plugins\datagrid\maximus.datagrid.plugin.js" />
     <Content Include="Scripts\jquery-3.7.0.js" />
     <Content Include="Scripts\jquery-3.7.0.min.js" />
@@ -166,6 +168,7 @@
     <Content Include="Scripts\services\correspondence.service.js" />
     <Content Include="Scripts\services\hospital-affiliation.service.js" />
     <Content Include="Scripts\services\provider-group.service.js" />
+    <Content Include="Scripts\services\work-history.service.js" />
     <Content Include="Scripts\WebForms\DetailsView.js" />
     <Content Include="Scripts\WebForms\Focus.js" />
     <Content Include="Scripts\WebForms\GridView.js" />
@@ -248,6 +251,13 @@
     </Compile>
     <Compile Include="ViewSwitcher.ascx.designer.cs">
       <DependentUpon>ViewSwitcher.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="WorkHistory.aspx.cs">
+      <DependentUpon>WorkHistory.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="WorkHistory.aspx.designer.cs">
+      <DependentUpon>WorkHistory.aspx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>

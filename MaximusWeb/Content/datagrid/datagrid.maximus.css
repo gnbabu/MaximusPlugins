@@ -5,7 +5,6 @@
     font-size: 14px;
     background: #fff;
     border: 1px solid #e2dff0;
-
 }
 
     /* ================= HEADER ================= */
@@ -18,7 +17,8 @@
         padding: 10px 14px;
         border-bottom: 1px solid #ddd !important;
         vertical-align: middle;
-        word-wrap:break-word;
+        word-wrap: break-word;
+        min-width: 150px;
     }
 
     /* ================= FILTER INPUT ================= */
@@ -120,3 +120,12 @@ th:hover .sort-icon {
         background-color: #4a2372;
         color: #fff;
     }
+
+
+.dg-even {
+    background: #efedf5;
+}
+
+.dg-odd {
+    background: #ffffff;
+}

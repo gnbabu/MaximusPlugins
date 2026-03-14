@@ -5,6 +5,7 @@
             apiUrl: null,
             data: [],
             columns: [],
+            rowTemplate: null,
             pageSizeOptions: [5, 10, 20, 50, 100],
             initialPageSize: 10,
             tableClass: 'maximus-base-table',
@@ -335,7 +336,21 @@
                 const colspan = settings.columns.filter(col => visibleColumns[col.key]).length;
                 $tbody.append(`<tr><td colspan="${colspan}" class="text-center no-records">${settings.noDataMessage}</td></tr>`);
             } else {
-                paged.forEach(row => {
+                paged.forEach((row, index) => {
+
+                    // If rowTemplate is provided use it
+                    if (settings.rowTemplate && typeof settings.rowTemplate === "function") {
+                        const zebra = index % 2 === 0 ? 'dg-even' : 'dg-odd';
+
+                        const html = settings.rowTemplate(row, settings.columns);
+
+                        const $rows = $(html).addClass(zebra);
+
+                        $tbody.append($rows);
+
+                        return;
+                    }
+
                     const $tr = $('<tr class="dg-data-row">');
                     settings.columns.forEach(col => {
                         if (!visibleColumns[col.key]) return;
