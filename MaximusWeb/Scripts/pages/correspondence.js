@@ -35,7 +35,7 @@ function renderCorrespondenceGrid(data) {
                     key: 'subject',
                     title: 'Correspondence Subject',
                     type: 'text',
-                    sortable: false,                    
+                    sortable: false,
                     cellTemplate: function (row) {
                         return `
                         <a href="javascript:void(0)"
@@ -45,7 +45,7 @@ function renderCorrespondenceGrid(data) {
                         </a>`;
                     }
                 },
-                { key: 'medicaidId', title: 'Medicaid ID', type: 'text', sortable: true },
+                { key: 'medicaidId', title: 'Medicaid ID', type: 'text', sortable: true, visible: false },
                 { key: 'regId', title: 'Reg ID', type: 'text', sortable: true },
                 { key: 'providerId', title: 'Provider ID', type: 'text', sortable: true },
                 { key: 'npi', title: 'NPI', type: 'text', sortable: true },
@@ -73,6 +73,13 @@ function renderCorrespondenceGrid(data) {
 //$('#grid')[0].selectRow(5);
 
 //$('#grid')[0].clearSelection();
+
+//$('#grid')[0].toggleColumnVisibility('phone', false);  // Hides the "Phone" column
+
+//$('#grid')[0].toggleColumnVisibility('phone', false);  // Hides the "Phone" column
+
+//const selectedRows = $('#grid')[0].getSelectedRows();  // Get all selected row IDs
+//console.log(selectedRows);
 
 function clearCorrespondenceGrid() {
 

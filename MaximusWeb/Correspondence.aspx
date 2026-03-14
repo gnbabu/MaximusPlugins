@@ -94,7 +94,7 @@
             <div class="page-card-header">
                 Correspondence Search Results <i class="bi bi-info-circle"></i>
             </div>
-            <div class="p-3 table-responsive">
+            <div class="p-3">
                 <div id="correspondence-grid-container" class="d-none"></div>
             </div>
         </div>

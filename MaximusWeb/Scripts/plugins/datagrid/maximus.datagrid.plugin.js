@@ -35,8 +35,44 @@
         let selectedRows = new Set();
 
         settings.columns.forEach(col => {
-            visibleColumns[col.key] = true;
+            col.visible = col.visible !== undefined ? col.visible : true;  // Default to true if not specified
+            visibleColumns[col.key] = col.visible;
         });
+
+
+        //Plugin functionality helper methods
+
+        //Get all selected rows
+        $element[0].getSelectedRows = function () {
+            return Array.from(selectedRows);
+        };
+
+        // Select a row programmatically
+        $element[0].selectRow = function (id) {
+
+            selectedRows.add(id);
+            $element.find(`.dg-row-select[data-id="${id}"]`).prop('checked', true);
+            updateSelectAllState();
+        };
+
+        // Clear row selection
+        $element[0].clearSelection = function () {
+
+            selectedRows.clear();
+            $element.find('.dg-row-select').prop('checked', false);
+            updateSelectAllState();
+        };
+
+        // Helper function to toggle column visibility
+        $element[0].toggleColumnVisibility = function (columnKey, isVisible) {
+            const column = settings.columns.find(col => col.key === columnKey);
+
+            if (column) {
+                column.visible = isVisible !== undefined ? isVisible : true;
+                visibleColumns[columnKey] = column.visible;
+                renderTable();  // Re-render the table after changing visibility
+            }
+        };
 
         // Date parsing function
         function parseDate(str) {
@@ -83,6 +119,8 @@
             }
 
             settings.columns.forEach(col => {
+                if (col.visible === false) return;  // Skip this column if it's not visible
+
                 if (!visibleColumns[col.key]) return;
 
                 const inputType = col.type === 'number' ? 'number' : 'text'; // Always use 'text' for jQuery datepicker
@@ -398,6 +436,8 @@
                     }
 
                     settings.columns.forEach(col => {
+                        if (col.visible === false) return;
+
                         if (!visibleColumns[col.key]) return;
 
                         let value = row[col.key];
@@ -557,7 +597,7 @@
                     </div>
                     ` : ''}
                 </div>
-                <div>
+                <div class="table-responsive">
                     <table class="${settings.tableClass}">
                         <thead>
                             <tr id="table-head"></tr>
@@ -673,26 +713,6 @@
 
             });
 
-            $element[0].getSelectedRows = function () {
-                return Array.from(selectedRows);
-            };
-
-            $element[0].selectRow = function (id) {
-
-                selectedRows.add(id);
-
-                $element.find(`.dg-row-select[data-id="${id}"]`).prop('checked', true);
-
-                updateSelectAllState();
-            };
-
-            $element[0].clearSelection = function () {
-
-                selectedRows.clear();
-
-                $element.find('.dg-row-select').prop('checked', false);
-                updateSelectAllState();
-            };
 
             fetchDataFromApi();
         }
