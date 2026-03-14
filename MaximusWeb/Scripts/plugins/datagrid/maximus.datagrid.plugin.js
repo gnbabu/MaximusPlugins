@@ -342,7 +342,16 @@
                     if (settings.rowTemplate && typeof settings.rowTemplate === "function") {
                         const zebra = index % 2 === 0 ? 'dg-even' : 'dg-odd';
 
-                        const html = settings.rowTemplate(row, settings.columns);
+                        // create formatted row copy
+                        const formattedRow = Object.assign({}, row);
+
+                        settings.columns.forEach(col => {
+                            if (col.type === 'date' && formattedRow[col.key]) {
+                                formattedRow[col.key] = formatDateForDisplay(formattedRow[col.key]);
+                            }
+                        });
+
+                        const html = settings.rowTemplate(formattedRow, settings.columns);
 
                         const $rows = $(html).addClass(zebra);
 
