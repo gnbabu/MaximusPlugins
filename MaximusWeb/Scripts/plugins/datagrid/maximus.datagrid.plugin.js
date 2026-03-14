@@ -6,6 +6,8 @@
             data: [],
             columns: [],
             rowTemplate: null,
+            enableRowSelection: false,   // ✅ NEW
+            checkboxColumnWidth: '40px', // ✅ NEW
             pageSizeOptions: [5, 10, 20, 50, 100],
             initialPageSize: 10,
             tableClass: 'maximus-base-table',
@@ -30,6 +32,7 @@
         let filters = {};
         let visibleColumns = {};
         let globalSearchText = '';
+        let selectedRows = new Set();
 
         settings.columns.forEach(col => {
             visibleColumns[col.key] = true;
@@ -68,6 +71,17 @@
         function buildTableHeader() {
             const $thead = $element.find('#table-head').empty();
 
+            if (settings.enableRowSelection) {
+
+                const $th = $(`
+                            <th style="width:${settings.checkboxColumnWidth}">
+                                <input type="checkbox" class="dg-select-all">
+                            </th>
+                        `);
+
+                $thead.append($th);
+            }
+
             settings.columns.forEach(col => {
                 if (!visibleColumns[col.key]) return;
 
@@ -76,12 +90,15 @@
 
                 let sortIcon = '';
 
-                if (sortKey === col.key) {
-                    sortIcon = sortAsc
-                        ? '<span class="material-icons sort-icon">arrow_upward</span>'
-                        : '<span class="material-icons sort-icon">arrow_downward</span>';
-                } else {
-                    sortIcon = '<span class="material-icons sort-icon">unfold_more</span>';
+                if (settings.enableSorting !== false && col.sortable !== false) {
+
+                    if (sortKey === col.key) {
+                        sortIcon = sortAsc
+                            ? '<span class="material-icons sort-icon">arrow_upward</span>'
+                            : '<span class="material-icons sort-icon">arrow_downward</span>';
+                    } else {
+                        sortIcon = '<span class="material-icons sort-icon">unfold_more</span>';
+                    }
                 }
 
                 const $th = $('<th scope="col"></th>');
@@ -89,7 +106,7 @@
 
                 const hasTitle = col.title != null && col.title !== '';
                 const labelText = hasTitle ? col.title + sortIcon : '';
-                const $labelSpan = $('<span>').html(col.title + ' ' + sortIcon);
+                const $labelSpan = $('<span>').html(col.title + (sortIcon ? ' ' + sortIcon : ''));
 
                 // Sorting
                 if (settings.enableSorting !== false && col.sortable !== false) {
@@ -333,7 +350,10 @@
             const paged = filtered.slice(start, start + pageSize);
 
             if (paged.length === 0) {
-                const colspan = settings.columns.filter(col => visibleColumns[col.key]).length;
+                let colspan = settings.columns.filter(col => visibleColumns[col.key]).length;
+
+                if (settings.enableRowSelection) colspan += 1;
+
                 $tbody.append(`<tr><td colspan="${colspan}" class="text-center no-records">${settings.noDataMessage}</td></tr>`);
             } else {
                 paged.forEach((row, index) => {
@@ -361,6 +381,22 @@
                     }
 
                     const $tr = $('<tr class="dg-data-row">');
+
+                    if (settings.enableRowSelection) {
+
+                        const rowId = row[settings.idProperty];
+                        const checked = selectedRows.has(rowId) ? 'checked' : '';
+
+                        $tr.append(`
+                                    <td>
+                                        <input type="checkbox"
+                                               class="dg-row-select"
+                                               data-id="${rowId}"
+                                               ${checked}>
+                                    </td>
+                                `);
+                    }
+
                     settings.columns.forEach(col => {
                         if (!visibleColumns[col.key]) return;
 
@@ -385,6 +421,8 @@
                     });
                     $tbody.append($tr);
                 });
+
+                updateSelectAllState();
             }
 
             if (filtered.length > 0) {
@@ -397,6 +435,22 @@
                 $element.find('#page-info').hide();
                 $element.find('#pagination').parent().hide();
             }
+        }
+
+        function updateSelectAllState() {
+
+            if (!settings.enableRowSelection) return;
+
+            const $rows = $element.find('.dg-row-select');
+
+            if ($rows.length === 0) {
+                $element.find('.dg-select-all').prop('checked', false);
+                return;
+            }
+
+            const allChecked = $rows.length === $rows.filter(':checked').length;
+
+            $element.find('.dg-select-all').prop('checked', allChecked);
         }
 
         function renderPagination(totalPages) {
@@ -580,6 +634,65 @@
                     renderTable();
                 });
             }
+
+            // select all checkbox
+            $element.on('change', '.dg-select-all', function () {
+
+                const checked = $(this).is(':checked');
+
+                $element.find('.dg-row-select').each(function () {
+
+                    const id = $(this).data('id');
+
+                    $(this).prop('checked', checked);
+
+                    if (checked) {
+                        selectedRows.add(id);
+                    } else {
+                        selectedRows.delete(id);
+                    }
+
+                });
+
+            });
+
+            $element.on('change', '.dg-row-select', function () {
+
+                const id = $(this).data('id');
+
+                if ($(this).is(':checked')) {
+                    selectedRows.add(id);
+                } else {
+                    selectedRows.delete(id);
+                }
+
+                const total = $element.find('.dg-row-select').length;
+                const selected = $element.find('.dg-row-select:checked').length;
+
+                $element.find('.dg-select-all').prop('checked', total === selected);
+
+            });
+
+            $element[0].getSelectedRows = function () {
+                return Array.from(selectedRows);
+            };
+
+            $element[0].selectRow = function (id) {
+
+                selectedRows.add(id);
+
+                $element.find(`.dg-row-select[data-id="${id}"]`).prop('checked', true);
+
+                updateSelectAllState();
+            };
+
+            $element[0].clearSelection = function () {
+
+                selectedRows.clear();
+
+                $element.find('.dg-row-select').prop('checked', false);
+                updateSelectAllState();
+            };
 
             fetchDataFromApi();
         }

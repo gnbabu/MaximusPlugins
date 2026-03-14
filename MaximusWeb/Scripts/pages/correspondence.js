@@ -35,7 +35,7 @@ function renderCorrespondenceGrid(data) {
                     key: 'subject',
                     title: 'Correspondence Subject',
                     type: 'text',
-                    sortable: true,                    
+                    sortable: false,                    
                     cellTemplate: function (row) {
                         return `
                         <a href="javascript:void(0)"
@@ -57,7 +57,7 @@ function renderCorrespondenceGrid(data) {
             gridTitle: '',
             noDataMessage: 'No correspondence found.',
             idProperty: 'correspondenceId',
-
+            enableRowSelection: true,
             enableAllColumnSearch: false,
             enableColumnFilters: true,
             enableSorting: true,
@@ -67,6 +67,12 @@ function renderCorrespondenceGrid(data) {
         });
 
 }
+//Example usage:
+//const ids = $('#grid')[0].getSelectedRows();
+
+//$('#grid')[0].selectRow(5);
+
+//$('#grid')[0].clearSelection();
 
 function clearCorrespondenceGrid() {
 
