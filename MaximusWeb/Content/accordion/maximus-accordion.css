@@ -1,0 +1,49 @@
+﻿.maximus-accordion {
+    border: 1px solid #e2dff0;
+    border-radius: 6px;
+    overflow: hidden;
+    background: #fff;
+}
+
+.maximus-accordion-item {
+    border-bottom: 1px solid #e2dff0;
+}
+
+.maximus-accordion-header {
+    display: flex;
+    align-items: center;
+    padding: 14px 18px;
+    background: #f6f5fb;
+    font-weight: 600;
+    cursor: pointer;
+    position: relative;
+    user-select: none;
+}
+
+.maximus-accordion-bar {
+    width: 6px;
+    height: 26px;
+    background: #6c4ccf;
+    border-radius: 3px;
+    margin-right: 10px;
+}
+
+.maximus-accordion-title {
+    flex: 1;
+    font-size: 15px;
+}
+
+.maximus-accordion-arrow {
+    font-size: 14px;
+    transition: transform 0.25s ease;
+}
+
+.maximus-accordion-item.active .maximus-accordion-arrow {
+    transform: rotate(180deg);
+}
+
+.maximus-accordion-content {
+    padding: 20px;
+    background: #fff;
+    overflow: hidden;
+}
