@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Accordian.aspx.cs" Inherits="MaximusWeb.Accordian" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="MultipleAccordian.aspx.cs" Inherits="MaximusWeb.MultipleAccordian" %>
 
 <!DOCTYPE html>
 
@@ -91,6 +91,7 @@
 
     <div class="container my-4">
 
+        <!-- Correspondence -->
         <div id="correspondenceAccordion" class="maximus-accordion">
 
             <div class="maximus-accordion-item">
@@ -109,13 +110,71 @@
                 </div>
 
                 <div class="maximus-accordion-content">
-
-                    <div class="page-card">
-                        <div class="p-3">
-                            <div id="correspondence-grid-container" class="d-none"></div>
-                        </div>
+                    <div class="p-3">
+                        <div id="correspondence-grid-container" class="d-none"></div>
                     </div>
+                </div>
 
+            </div>
+
+        </div>
+
+
+        <br />
+
+        <!-- Groups -->
+        <div id="groupsAccordion" class="maximus-accordion">
+
+            <div class="maximus-accordion-item">
+
+                <div class="maximus-accordion-header">
+
+                    <span class="maximus-accordion-bar"></span>
+
+                    <span class="maximus-accordion-title">Groups
+                    </span>
+
+                    <span class="maximus-accordion-arrow">
+                        <span class="material-icons">expand_more</span>
+                    </span>
+
+                </div>
+
+                <div class="maximus-accordion-content">
+                    <div class="p-3 table-responsive">
+                        <div id="provider-groups-grid-container" class="d-none"></div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <br />
+
+        <!-- Affiliations -->
+        <div id="affiliationsAccordion" class="maximus-accordion">
+
+            <div class="maximus-accordion-item">
+
+                <div class="maximus-accordion-header">
+
+                    <span class="maximus-accordion-bar"></span>
+
+                    <span class="maximus-accordion-title">Affiliations
+                    </span>
+
+                    <span class="maximus-accordion-arrow">
+                        <span class="material-icons">expand_more</span>
+                    </span>
+
+                </div>
+
+                <div class="maximus-accordion-content">
+                    <div class="p-3 table-responsive">
+                        <div id="hospital-affiliation-grid-container" class="d-none"></div>
+                    </div>
                 </div>
 
             </div>
@@ -123,7 +182,6 @@
         </div>
 
     </div>
-
     <!-- Vendor JS -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
@@ -141,25 +199,37 @@
     <!-- DataGrid Plugin -->
     <script src="Scripts/plugins/datagrid/maximus.datagrid.plugin.js"></script>
 
+    <!-- Accordion Plugin -->
     <script src="Scripts/plugins/accordion/maximus.accordion.js"></script>
-
 
     <!-- Services -->
     <script src="Scripts/services/correspondence.service.js"></script>
+    <script src="Scripts/services/provider-group.service.js"></script>
+    <script src="Scripts/services/hospital-affiliation.service.js"></script>
 
     <!-- Page -->
     <script src="Scripts/pages/correspondence.js"></script>
+    <script src="Scripts/pages/provider-group.js"></script>
+    <script src="Scripts/pages/hospital-affiliation.js"></script>
 
     <script>
-        $(document).ready(function () {
+        $(function () {
 
             $("#correspondenceAccordion").maximusAccordion({
-                allowMultiple: false,
-                defaultOpen: 0
+                allowMultiple: false
+            });
+
+            $("#groupsAccordion").maximusAccordion({
+                allowMultiple: false
+            });
+
+            $("#affiliationsAccordion").maximusAccordion({
+                allowMultiple: false
             });
 
         });
     </script>
+
 
 </body>
 </html>

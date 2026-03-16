@@ -5,45 +5,63 @@
     background: #fff;
 }
 
+/* item */
 .maximus-accordion-item {
-    border-bottom: 1px solid #e2dff0;
+    border-bottom: 1px solid #e6e4f2;
 }
 
+/* header */
 .maximus-accordion-header {
     display: flex;
     align-items: center;
-    padding: 14px 18px;
-    background: #f6f5fb;
+    padding: 16px 20px 16px 50px;
+    background: #f7f6fb;
     font-weight: 600;
     cursor: pointer;
     position: relative;
     user-select: none;
 }
 
+/* purple bar */
 .maximus-accordion-bar {
-    width: 6px;
-    height: 26px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 30px;
     background: #6c4ccf;
-    border-radius: 3px;
-    margin-right: 10px;
+    border-radius: 0 4px 8px 0;
 }
 
+/* title */
 .maximus-accordion-title {
     flex: 1;
-    font-size: 15px;
+    font-size: 18px;
+    font-weight: 600;
+    color: #5b4bb7;
 }
 
+/* arrow */
 .maximus-accordion-arrow {
-    font-size: 14px;
-    transition: transform 0.25s ease;
+    display: flex;
+    align-items: center;
+    color: #6f6f6f;
+    transition: transform .25s ease;
 }
-
+/* rotate arrow */
 .maximus-accordion-item.active .maximus-accordion-arrow {
     transform: rotate(180deg);
 }
 
+/* accordion body */
 .maximus-accordion-content {
     padding: 20px;
     background: #fff;
     overflow: hidden;
+}
+
+/* material icon */
+.material-icons {
+    font-size: 26px;
+    line-height: 1;
 }
