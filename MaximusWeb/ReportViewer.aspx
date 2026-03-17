@@ -306,12 +306,12 @@
 
         .report-card {
             background-color: #F7F4FA;
-            border-radius: 8px;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
             display: flex;
             justify-content: space-between;
             align-items: center;
             padding-left: 25px;
+            border: 1px solid #e6e4f2;
         }
 
         /* Left section: Title and Subtitle */
@@ -337,6 +337,7 @@
             padding: 15px;
             margin: 15px 100px;
             min-width: 400px;
+            font-weight:700;
         }
 
             .report-right h2 {
@@ -346,8 +347,8 @@
             }
 
             .report-right .date-label {
-                font-size: 14px;
-                color: #6c757d;
+                font-size: 12px;
+                color: #6f42c1;
                 margin-bottom: 0 !important;
             }
 

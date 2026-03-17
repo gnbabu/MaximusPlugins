@@ -654,10 +654,10 @@
                     };
 
                     // Example: Validate data
-                    if (!formData.template || !formData.reportName) {
-                        alert('Please select a template and enter a report name!');
-                        return;
-                    }
+                    //if (!formData.template || !formData.reportName) {
+                    //    alert('Please select a template and enter a report name!');
+                    //    return;
+                    //}
 
                     // Process or save the data (e.g., send to an API)
                     console.log('Template Data:', formData);
