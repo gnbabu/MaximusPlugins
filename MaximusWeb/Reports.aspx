@@ -143,7 +143,7 @@
             }
 
         .material-icons {
-            font-size: 20px;
+            /*font-size: 20px;*/
         }
 
 
@@ -152,9 +152,16 @@
             border-radius: 12px;
             border: 1px solid var(--border-color);
             box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-            padding: 28px 32px;
+            padding: 0px;
         }
         /* Title area */
+        .page-container {
+            padding: 20px 10px;
+            background: #F7F4FA;
+            margin-bottom:20px;
+            border: 1px solid #e6e4f2;
+        }
+
         .page-title-icon {
             width: 36px;
             height: 36px;
@@ -169,6 +176,8 @@
             .page-title-icon .material-icons-outlined {
                 font-size: 20px;
             }
+
+
 
         .page-title {
             font-size: 20px;
@@ -321,10 +330,10 @@
         </div>
     </div>
 
-    <div class="container content-card my-4">
+    <div class="container content-card">
 
         <!-- Page Title Row -->
-        <div class="d-flex flex-column flex-sm-row align-items-start align-items-sm-center justify-content-between gap-3 mb-4 pb-2">
+        <div class="d-flex flex-column flex-sm-row align-items-start align-items-sm-center justify-content-between gap-3 page-container">
             <div class="d-flex align-items-center gap-3">
                 <div class="page-title-icon">
                     <span class="material-icons-outlined">assessment</span>
@@ -359,7 +368,7 @@
 
                     <span class="maximus-accordion-title">Standard Reports</span>
 
-                    <button class="btn-icon" title="Help"><span class="material-icons-outlined">help_outline</span></button>
+                    <button class="btn-icon" title="Help"><span class="material-icons-outlined">info</span></button>
                     <span class="maximus-accordion-arrow">
                         <span class="material-icons">expand_more</span>
                     </span>
@@ -415,7 +424,7 @@
                     <span class="maximus-accordion-title">Custom Reports
                     </span>
 
-                    <button class="btn-icon" title="Help"><span class="material-icons-outlined">help_outline</span></button>
+                    <button class="btn-icon" title="Help"><span class="material-icons-outlined">info</span></button>
                     <span class="maximus-accordion-arrow">
                         <span class="material-icons">expand_more</span>
                     </span>
