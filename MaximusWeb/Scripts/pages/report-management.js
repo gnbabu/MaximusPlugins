@@ -19,7 +19,8 @@
 
 
     $("#standardReportsAccordion").maximusAccordion({
-        allowMultiple: false
+        allowMultiple: false,
+        defaultOpen: 0
     });
 
     $("#customReportsAccordion").maximusAccordion({

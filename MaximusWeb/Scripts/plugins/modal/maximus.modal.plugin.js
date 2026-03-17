@@ -3,6 +3,7 @@
 
         var settings = $.extend({
             modalId: '',
+            modalWidth: '600px',   // Default modal width (can be overridden)
             onOpen: null,
             onClose: null,
             onSave: null
@@ -19,6 +20,10 @@
             console.error('Modal not found:', settings.modalId);
             return this;
         }
+
+        // Apply dynamic width to the modal dialog
+        $modal.find('.modal-dialog').css('max-width', settings.modalWidth); // Apply modal width
+
 
         // Bootstrap instance
         var bsModal = new bootstrap.Modal($modal[0]);

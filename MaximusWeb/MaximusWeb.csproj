@@ -160,6 +160,7 @@
     <Content Include="Scripts\plugins\accordion\maximus.accordion.js" />
     <Content Include="Scripts\plugins\modal\maximus.modal.plugin.js" />
     <Content Include="WorkHistory.aspx" />
+    <Content Include="Content\modal\modal.maximus.css" />
     <None Include="Scripts\jquery-3.7.0.intellisense.js" />
     <Content Include="Scripts\core\api.service.js" />
     <Content Include="Scripts\core\config.js" />
