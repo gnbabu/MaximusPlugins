@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Reports.aspx.cs" Inherits="MaximusWeb.Reports" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="ReportManagement.aspx.cs" Inherits="MaximusWeb.Reports" %>
 
 <!DOCTYPE html>
 
@@ -158,7 +158,7 @@
         .page-container {
             padding: 20px 10px;
             background: #F7F4FA;
-            margin-bottom:20px;
+            margin-bottom: 20px;
             border: 1px solid #e6e4f2;
         }
 
@@ -166,7 +166,7 @@
             width: 36px;
             height: 36px;
             border-radius: 50%;
-            background-color: var(--purple-main);
+            background-color: #5c1a8c;
             color: #fff;
             display: flex;
             align-items: center;
@@ -182,13 +182,13 @@
         .page-title {
             font-size: 20px;
             font-weight: 700;
-            color: var(--purple-main);
+            color: #5c1a8c;
         }
 
         /* Action buttons */
         .btn-action-outline {
-            border: 1.5px solid var(--purple-main);
-            color: var(--purple-main);
+            border: 1.5px solid #5c1a8c;
+            color: #5c1a8c;
             background: #fff;
             border-radius: 50px;
             font-size: 13px;
@@ -202,12 +202,12 @@
 
             .btn-action-outline:hover {
                 background-color: var(--purple-lighter);
-                color: var(--purple-main);
-                border-color: var(--purple-main);
+                color: #5c1a8c;
+                border-color: #5c1a8c;
             }
 
         .btn-action-filled {
-            background-color: var(--purple-main);
+            background-color: #5c1a8c;
             color: #fff;
             border: none;
             border-radius: 50px;
@@ -248,7 +248,7 @@
             }
 
             .report-item .report-icon {
-                color: var(--purple-main);
+                color: #5c1a8c;
                 flex-shrink: 0;
                 display: flex;
                 align-items: center;
@@ -297,7 +297,7 @@
         .btn-icon {
             background: none;
             border: none;
-            color: var(--purple-main);
+            color: #5c1a8c;
             padding: 4px;
             cursor: pointer;
             border-radius: 4px;
@@ -330,7 +330,8 @@
         </div>
     </div>
 
-    <div class="container content-card">
+    <%--Report Management--%>
+    <div id="reportManagement" class="container content-card">
 
         <!-- Page Title Row -->
         <div class="d-flex flex-column flex-sm-row align-items-start align-items-sm-center justify-content-between gap-3 page-container">
@@ -345,7 +346,7 @@
                     <span class="material-icons-outlined">search</span> Ad-hoc Query
         
                 </button>
-                <button class="btn btn-action-outline">
+                <button class="btn btn-action-outline" id="btnMyDrafts">
                     <span class="material-icons-outlined">drafts</span> My Drafts
         
                 </button>
@@ -446,6 +447,65 @@
         </div>
 
     </div>
+
+    <%--My Drafts--%>
+    <div id="myDrafts" class="container content-card">
+
+        <!-- Page Title Row -->
+        <div class="d-flex flex-column flex-sm-row align-items-start align-items-sm-center justify-content-between gap-3 page-container">
+            <div class="d-flex align-items-center gap-3">
+                <div class="page-title-icon">
+                    <span class="material-icons-outlined">drafts</span>
+                </div>
+                <h1 class="page-title mb-0">My Drafts</h1>
+            </div>
+            <div class="d-flex flex-wrap gap-2 action-buttons">
+                <button class="btn btn-action-filled">
+                    <span class="material-icons-outlined">search</span> Ad-hoc Query
+    
+                </button>
+                <button class="btn btn-action-outline" id="btnReportManagement">
+                    <span class="material-icons-outlined">assessment</span> Report Management
+    
+                </button>
+                <button class="btn btn-action-filled">
+                    <span class="material-icons-outlined">note_add</span> New Report
+    
+                </button>
+            </div>
+        </div>
+
+        <div class="p-3">
+            <div class="report-item">
+                <span class="report-icon"><span class="material-icons-outlined">description</span></span>
+                <span class="report-name">Credentialing Clean File Report</span>
+                <button class="btn-more"><span class="material-icons-outlined">more_vert</span></button>
+            </div>
+            <div class="report-item">
+                <span class="report-icon"><span class="material-icons-outlined">description</span></span>
+                <span class="report-name">Credentialing Flagged Files Report</span>
+                <button class="btn-more"><span class="material-icons-outlined">more_vert</span></button>
+            </div>
+            <div class="report-item">
+                <span class="report-icon"><span class="material-icons-outlined">description</span></span>
+                <span class="report-name">Provider Re-credentialing Due Report</span>
+                <button class="btn-more"><span class="material-icons-outlined">more_vert</span></button>
+            </div>
+            <div class="report-item">
+                <span class="report-icon"><span class="material-icons-outlined">description</span></span>
+                <span class="report-name">Credentialing – Provider Contracting &gt; 36 Months Report</span>
+                <button class="btn-more"><span class="material-icons-outlined">more_vert</span></button>
+            </div>
+            <div class="report-item">
+                <span class="report-icon"><span class="material-icons-outlined">description</span></span>
+                <span class="report-name">Credentialing – Clean and Flagged Files Summary Report</span>
+                <button class="btn-more"><span class="material-icons-outlined">more_vert</span></button>
+            </div>
+        </div>
+
+
+    </div>
+
     <!-- Vendor JS -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
@@ -463,20 +523,7 @@
     <!-- Accordion Plugin -->
     <script src="Scripts/plugins/accordion/maximus.accordion.js"></script>
 
-    <script>
-        $(function () {
-
-            $("#standardReportsAccordion").maximusAccordion({
-                allowMultiple: false
-            });
-
-            $("#customReportsAccordion").maximusAccordion({
-                allowMultiple: false
-            });
-
-        });
-    </script>
-
+    <script src="Scripts/pages/report-management.js"></script>
 
 </body>
 </html>
