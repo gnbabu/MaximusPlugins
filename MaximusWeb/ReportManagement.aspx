@@ -506,6 +506,34 @@
 
     </div>
 
+
+    <!-- Trigger button -->
+    <button type="button" class="btn btn-primary" id="openModalBtn">Open Modal</button>
+
+    <!-- Custom Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="myModalLabel">Modal title</h5>
+                    <button type="button" class="btn-close" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>This is the body content of the modal.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" id="closeModalBtn">Close</button>
+                    <button type="button" class="btn btn-primary" id="saveChangesBtn">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
     <!-- Vendor JS -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
@@ -523,7 +551,42 @@
     <!-- Accordion Plugin -->
     <script src="Scripts/plugins/accordion/maximus.accordion.js"></script>
 
+    <script src="Scripts/plugins/modal/maximus.modal.plugin.js"></script>
+
     <script src="Scripts/pages/report-management.js"></script>
+
+
+    <script>
+        $(document).ready(function () {
+            // Initialize modal plugin
+            var myModal = $('#myModal').modalPlugin({
+                modalId: '#myModal',
+                onContentUpdated: function (title, body, footer) {
+                    console.log('Modal content updated');
+                    console.log('Title:', title);
+                    console.log('Body:', body);
+                    console.log('Footer:', footer);
+                }
+            });
+
+            // Open modal on button click
+            $('#openModalBtn').on('click', function () {
+                myModal.openModal(); // Open the modal programmatically
+            });
+
+            // Close the modal when the "Close" button is clicked
+            $('#closeModalBtn').on('click', function () {
+                myModal.closeModal(); // Close the modal programmatically
+            });
+
+            // Save changes action (for demonstration)
+            $('#saveChangesBtn').on('click', function () {
+                console.log('Save changes clicked');
+                myModal.closeModal(); // Close the modal after saving changes
+            });
+
+        });
+    </script>
 
 </body>
 </html>

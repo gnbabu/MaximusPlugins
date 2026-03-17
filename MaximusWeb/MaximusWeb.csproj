@@ -157,6 +157,7 @@
     <Content Include="Content\bootstrap-grid.css.map" />
     <Content Include="Scripts\pages\report-management.js" />
     <Content Include="Scripts\plugins\accordion\maximus.accordion.js" />
+    <Content Include="Scripts\plugins\modal\maximus.modal.plugin.js" />
     <Content Include="WorkHistory.aspx" />
     <None Include="Scripts\jquery-3.7.0.intellisense.js" />
     <Content Include="Scripts\core\api.service.js" />
