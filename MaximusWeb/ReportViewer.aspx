@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="ReportManagement.aspx.cs" Inherits="MaximusWeb.Reports" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="ReportViewer.aspx.cs" Inherits="MaximusWeb.ReportViewer" %>
 
 <!DOCTYPE html>
 
@@ -495,9 +495,7 @@
             Last Login: 05/31/2022 | 02:18 PM
         </div>
     </div>
-
-    <%--Report Management--%>
-    <div id="reportManagement" class="container content-card">
+    <div id="myDrafts" class="container content-card">
 
         <!-- Page Title Row -->
         <div class="d-flex flex-column flex-sm-row align-items-start align-items-sm-center justify-content-between gap-3 page-container">
@@ -505,251 +503,22 @@
                 <div class="page-title-icon">
                     <span class="material-icons-outlined">assessment</span>
                 </div>
-                <h1 class="page-title mb-0">Report Management</h1>
+                <h1 class="page-title mb-0">Standalone Reports</h1>
             </div>
             <div class="d-flex flex-wrap gap-2 action-buttons">
-                <button class="btn btn-action-filled">
-                    <span class="material-icons-outlined">search</span> Ad-hoc Query
-        
-                </button>
                 <button class="btn btn-action-outline" id="btnMyDrafts">
                     <span class="material-icons-outlined">drafts</span> My Drafts
-        
-                </button>
-                <button class="btn btn-action-filled" id="newReportBtn">
-                    <span class="material-icons-outlined">note_add</span> New Report
-        
-                </button>
-            </div>
-        </div>
-
-
-        <!-- Standard Reports -->
-        <div id="standardReportsAccordion" class="maximus-accordion">
-
-            <div class="maximus-accordion-item">
-
-                <div class="maximus-accordion-header">
-
-                    <span class="maximus-accordion-bar"></span>
-
-                    <span class="maximus-accordion-title">Standard Reports</span>
-
-                    <button class="btn-icon" title="Help"><span class="material-icons-outlined">info</span></button>
-                    <span class="maximus-accordion-arrow">
-                        <span class="material-icons">expand_more</span>
-                    </span>
-
-                </div>
-
-                <div class="maximus-accordion-content">
-                    <div class="p-3">
-                        <div class="report-item">
-                            <span class="report-icon"><span class="material-icons-outlined">description</span></span>
-                            <span class="report-name">Credentialing Clean File Report</span>
-                            <button class="btn-more"><span class="material-icons-outlined">more_vert</span></button>
-                        </div>
-                        <div class="report-item">
-                            <span class="report-icon"><span class="material-icons-outlined">description</span></span>
-                            <span class="report-name">Credentialing Flagged Files Report</span>
-                            <button class="btn-more"><span class="material-icons-outlined">more_vert</span></button>
-                        </div>
-                        <div class="report-item">
-                            <span class="report-icon"><span class="material-icons-outlined">description</span></span>
-                            <span class="report-name">Provider Re-credentialing Due Report</span>
-                            <button class="btn-more"><span class="material-icons-outlined">more_vert</span></button>
-                        </div>
-                        <div class="report-item">
-                            <span class="report-icon"><span class="material-icons-outlined">description</span></span>
-                            <span class="report-name">Credentialing – Provider Contracting &gt; 36 Months Report</span>
-                            <button class="btn-more"><span class="material-icons-outlined">more_vert</span></button>
-                        </div>
-                        <div class="report-item">
-                            <span class="report-icon"><span class="material-icons-outlined">description</span></span>
-                            <span class="report-name">Credentialing – Clean and Flagged Files Summary Report</span>
-                            <button class="btn-more"><span class="material-icons-outlined">more_vert</span></button>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-
-        </div>
-
-
-        <br />
-
-        <!-- Custom Reports -->
-        <div id="customReportsAccordion" class="maximus-accordion">
-
-            <div class="maximus-accordion-item">
-
-                <div class="maximus-accordion-header">
-
-                    <span class="maximus-accordion-bar"></span>
-
-                    <span class="maximus-accordion-title">Custom Reports
-                    </span>
-
-                    <button class="btn-icon" title="Help"><span class="material-icons-outlined">info</span></button>
-                    <span class="maximus-accordion-arrow">
-                        <span class="material-icons">expand_more</span>
-                    </span>
-
-                </div>
-
-                <div class="maximus-accordion-content">
-                    <div class="p-3">
-                        <div class="report-item">
-                            <span class="report-icon"><span class="material-icons-outlined">description</span></span>
-                            <span class="report-name">Custom Report</span>
-                            <button class="btn-more"><span class="material-icons-outlined">more_vert</span></button>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-
-        </div>
-
-    </div>
-
-    <%--My Drafts--%>
-    <div id="myDrafts" class="container content-card">
-
-        <!-- Page Title Row -->
-        <div class="d-flex flex-column flex-sm-row align-items-start align-items-sm-center justify-content-between gap-3 page-container">
-            <div class="d-flex align-items-center gap-3">
-                <div class="page-title-icon">
-                    <span class="material-icons-outlined">drafts</span>
-                </div>
-                <h1 class="page-title mb-0">My Drafts</h1>
-            </div>
-            <div class="d-flex flex-wrap gap-2 action-buttons">
-                <button class="btn btn-action-filled">
-                    <span class="material-icons-outlined">search</span> Ad-hoc Query
-    
-                </button>
-                <button class="btn btn-action-outline" id="btnReportManagement">
-                    <span class="material-icons-outlined">assessment</span> Report Management
-    
                 </button>
                 <button class="btn btn-action-filled">
                     <span class="material-icons-outlined">note_add</span> New Report
-    
                 </button>
             </div>
         </div>
 
         <div class="p-3">
-            <div class="report-item">
-                <span class="report-icon"><span class="material-icons-outlined">description</span></span>
-                <span class="report-name">Credentialing Clean File Report</span>
-                <button class="btn-more"><span class="material-icons-outlined">more_vert</span></button>
-            </div>
-            <div class="report-item">
-                <span class="report-icon"><span class="material-icons-outlined">description</span></span>
-                <span class="report-name">Credentialing Flagged Files Report</span>
-                <button class="btn-more"><span class="material-icons-outlined">more_vert</span></button>
-            </div>
-            <div class="report-item">
-                <span class="report-icon"><span class="material-icons-outlined">description</span></span>
-                <span class="report-name">Provider Re-credentialing Due Report</span>
-                <button class="btn-more"><span class="material-icons-outlined">more_vert</span></button>
-            </div>
-            <div class="report-item">
-                <span class="report-icon"><span class="material-icons-outlined">description</span></span>
-                <span class="report-name">Credentialing – Provider Contracting &gt; 36 Months Report</span>
-                <button class="btn-more"><span class="material-icons-outlined">more_vert</span></button>
-            </div>
-            <div class="report-item">
-                <span class="report-icon"><span class="material-icons-outlined">description</span></span>
-                <span class="report-name">Credentialing – Clean and Flagged Files Summary Report</span>
-                <button class="btn-more"><span class="material-icons-outlined">more_vert</span></button>
-            </div>
         </div>
 
-
     </div>
-
-
-    <!-- Modal 1: Credentialing Clean File Report -->
-    <div class="modal fade" id="cleanFileReportModal" tabindex="-1" aria-labelledby="cleanFileReportLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="cleanFileReportLabel">Credentialing Clean File Report</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <!-- Start Date -->
-                    <div class="mb-3">
-                        <label for="startDate" class="form-label">Start Date*</label>
-                        <div class="input-group">
-                            <input type="text" class="form-control" id="startDate" placeholder="MM/DD/YYYY" required>
-                            <span class="input-group-text">
-                                <span class="material-icons">calendar_today</span>
-                            </span>
-                        </div>
-                    </div>
-                    <!-- End Date -->
-                    <div class="mb-3">
-                        <label for="endDate" class="form-label">End Date*</label>
-                        <div class="input-group">
-                            <input type="text" class="form-control" id="endDate" placeholder="MM/DD/YYYY" required>
-                            <span class="input-group-text">
-                                <span class="material-icons">calendar_today</span>
-                            </span>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" id="cancelCleanFileReport" data-bs-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-primary" id="saveAndCloseReport">View Report</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal 2: Select Template -->
-    <div class="modal fade" id="selectTemplateModal" tabindex="-1" aria-labelledby="selectTemplateLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="selectTemplateLabel">Select Template</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="mb-3">
-                        <label for="templateSelect" class="form-label">Template*</label>
-                        <select class="form-select" id="templateSelect" required>
-                            <option selected>Select Template</option>
-                            <option value="reactivate">Reactivate</option>
-                            <option value="renew">Renew</option>
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label for="reportName" class="form-label">Report Name*</label>
-                        <input type="text" class="form-control" id="reportName" placeholder="Enter report name" required>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <!-- Cancel button with Material Icon -->
-                    <button type="button" class="btn btn-secondary" id="cancelSelectTemplate" data-bs-dismiss="modal">
-                        <span class="material-icons-outlined">close</span> Cancel
-                    </button>
-                    <!-- Save and Close button with Material Icon -->
-                    <button type="button" class="btn btn-primary" id="saveAndCloseTemplate">
-                        <span class="material-icons-outlined">check_circle</span> Confirm
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-
-
 
 
     <!-- Vendor JS -->
@@ -766,110 +535,6 @@
     <script src="Scripts/core/config.js"></script>
     <script src="Scripts/core/api.service.js"></script>
 
-    <!-- Accordion Plugin -->
-    <script src="Scripts/plugins/accordion/maximus.accordion.js"></script>
-
-    <script src="Scripts/plugins/modal/maximus.modal.plugin.js"></script>
-
-    <script src="Scripts/pages/report-management.js"></script>
-
-
-    <script>
-        $(document).ready(function () {
-
-            // Initialize Clean File Report Modal
-            var cleanFileReportModal = $('#cleanFileReportModal').modalPlugin({
-                modalId: '#cleanFileReportModal',
-
-                onSave: function ($modal) {
-                    // Read data from modal
-                    var formData = {
-                        startDate: $modal.find('#startDate').val(),
-                        endDate: $modal.find('#endDate').val()
-                    };
-
-                    // Example: Validate data
-                    //if (!formData.startDate || !formData.endDate) {
-                    //    alert('Please fill both start and end dates!');
-                    //    return;
-                    //}
-
-                    window.location.href = 'ReportViewer.aspx';
-
-                    // Process or save the data (e.g., send to an API)
-                    console.log('Clean Report Data:', formData);
-
-                    // Close modal after saving data
-                    cleanFileReportModal.close();
-                },
-
-                onClose: function () {
-                    console.log('Clean File Report modal closed');
-                }
-            });
-
-            // Initialize Select Template Modal
-            var selectTemplateModal = $('#selectTemplateModal').modalPlugin({
-                modalId: '#selectTemplateModal',
-
-                onSave: function ($modal) {
-                    // Read data from modal
-                    var formData = {
-                        template: $modal.find('#templateSelect').val(),
-                        reportName: $modal.find('#reportName').val()
-                    };
-
-                    // Example: Validate data
-                    if (!formData.template || !formData.reportName) {
-                        alert('Please select a template and enter a report name!');
-                        return;
-                    }
-
-                    // Process or save the data (e.g., send to an API)
-                    console.log('Template Data:', formData);
-
-                    // Close modal after saving data
-                    selectTemplateModal.close();
-                },
-
-                onClose: function () {
-                    console.log('Select Template modal closed');
-                }
-            });
-
-            // Open the Select Template Modal when the "New Report" button is clicked
-            $('#newReportBtn').on('click', function () {
-                debugger;
-                selectTemplateModal.open(); // Open the modal programmatically
-            });
-
-            // Open the Select Template Modal when the "New Report" button is clicked
-            $('.btn-more').on('click', function () {
-                cleanFileReportModal.open(); // Open the modal programmatically
-            });
-
-
-            // Handle Save and Close for Clean File Report modal
-            $('#saveAndCloseReport').on('click', function () {
-                cleanFileReportModal.save();  // Call the plugin's save method
-            });
-
-            // Handle Save and Close for Select Template modal
-            $('#saveAndCloseTemplate').on('click', function () {
-                selectTemplateModal.save();  // Call the plugin's save method
-            });
-
-            // Handle Cancel buttons or closing the modal manually if needed
-            $('#cancelCleanFileReport').on('click', function () {
-                cleanFileReportModal.close();  // Close the modal manually
-            });
-
-            $('#cancelSelectTemplate').on('click', function () {
-                selectTemplateModal.close();  // Close the modal manually
-            });
-
-        });
-    </script>
 
 </body>
 </html>

@@ -127,6 +127,7 @@
     <Content Include="Global.asax" />
     <Content Include="MultipleAccordian.aspx" />
     <Content Include="ReportManagement.aspx" />
+    <Content Include="ReportViewer.aspx" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.esm.js" />
@@ -258,6 +259,13 @@
     </Compile>
     <Compile Include="ReportManagement.aspx.designer.cs">
       <DependentUpon>ReportManagement.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ReportViewer.aspx.cs">
+      <DependentUpon>ReportViewer.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ReportViewer.aspx.designer.cs">
+      <DependentUpon>ReportViewer.aspx</DependentUpon>
     </Compile>
     <Compile Include="Site.Master.cs">
       <DependentUpon>Site.Master</DependentUpon>
