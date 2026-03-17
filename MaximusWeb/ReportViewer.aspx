@@ -20,8 +20,6 @@
     <!-- Datagrid Theme -->
     <link href="Content/datagrid/datagrid.maximus.css" rel="stylesheet" />
 
-    <link href="Content/accordion/maximus-accordion.css" rel="stylesheet" />
-
 
     <style>
         :root {
@@ -306,8 +304,82 @@
             align-items: center;
         }
 
+        .report-card {
+            background-color: #F7F4FA;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-left: 25px;
+        }
 
-       
+        /* Left section: Title and Subtitle */
+        .report-left {
+            max-width: 60%;
+        }
+
+            .report-left h1 {
+                font-size: 24px;
+                color: #6f42c1; /* Purple color */
+                margin: 0;
+            }
+
+            .report-left p {
+                font-size: 16px;
+                color: #6c757d; /* Dark gray */
+            }
+
+        /* Right section: Report details with dates */
+        .report-right {
+            background-color: #ffffff;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 100px;
+            min-width: 400px;
+        }
+
+            .report-right h2 {
+                font-size: 20px;
+                color: #6f42c1; /* Purple color */
+                margin-bottom: 10px;
+            }
+
+            .report-right .date-label {
+                font-size: 14px;
+                color: #6c757d;
+                margin-bottom: 0 !important;
+            }
+
+            .report-right .date-value {
+                font-size: 10px;
+                color: #6f42c1;
+                margin-bottom: 1px;
+            }
+
+        /* Material Icon Styling */
+        .material-icons-outlined {
+            font-size: 18px;
+            vertical-align: middle;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .report-card {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .report-left {
+                max-width: 100%;
+                text-align: center;
+                margin-bottom: 20px;
+            }
+
+            .report-right {
+                min-width: auto;
+            }
+        }
     </style>
 
 
@@ -352,7 +424,31 @@
             </div>
         </div>
 
-        <div class="p-3">
+        <div>
+
+            <div class="report-card">
+                <!-- Left Section: Title and Subtitle -->
+                <div class="report-left">
+                    <h1>Maximus Credentialing</h1>
+                    <p>Operational Insight Reports</p>
+                </div>
+
+                <!-- Right Section: Report Details -->
+                <div class="report-right">
+                    <h2>Clean Files Report</h2>
+                    <p class="date-label">Report Run Date:</p>
+                    <p class="date-value">MM/DD/YYYY</p>
+
+                    <p class="date-label">From Date:</p>
+                    <p class="date-value">MM/DD/YYYY</p>
+
+                    <p class="date-label">To Date:</p>
+                    <p class="date-value">MM/DD/YYYY</p>
+                </div>
+            </div>
+
+            <div id="reports-grid-container" style="margin: 10px;" class="d-none"></div>
+
         </div>
 
     </div>
@@ -372,6 +468,14 @@
     <script src="Scripts/core/config.js"></script>
     <script src="Scripts/core/api.service.js"></script>
 
+    <!-- DataGrid Plugin -->
+    <script src="Scripts/plugins/datagrid/maximus.datagrid.plugin.js"></script>
+
+    <!-- Services -->
+    <script src="Scripts/services/reports.service.js"></script>
+
+    <!-- Page -->
+    <script src="Scripts/pages/report-viewer.js"></script>
 
 </body>
 </html>

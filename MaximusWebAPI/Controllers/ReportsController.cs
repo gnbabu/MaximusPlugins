@@ -31,17 +31,19 @@ namespace MaximusWebAPI.Controllers
 
 
         // GET: api/reports?startDate=2023-01-01&endDate=2023-12-31
-        [HttpGet]
-        public IActionResult GetReportsByDateRange([FromQuery] DateTime startDate, [FromQuery] DateTime endDate)
+
+        //[FromQuery] DateTime startDate, [FromQuery] DateTime endDate
+        [HttpGet("reports-by-date-range")]
+        public IActionResult GetReportsByDateRange()
         {
-            var filteredReports = Reports.Where(r => r.StartDate >= startDate && r.StartDate <= endDate).ToList();
+            //var filteredReports = Reports.Where(r => r.StartDate >= startDate && r.StartDate <= endDate).ToList();
 
-            if (!filteredReports.Any())
-            {
-                return NotFound("No reports found within the given date range.");
-            }
+            //if (!filteredReports.Any())
+            //{
+            //    return NotFound("No reports found within the given date range.");
+            //}
 
-            return Ok(filteredReports);
+            return Ok(Reports);
         }
 
     }
