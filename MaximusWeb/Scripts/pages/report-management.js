@@ -32,7 +32,7 @@
     // Initialize Clean File Report Modal
     var cleanFileReportModal = $('#cleanFileReportModal').modalPlugin({
         modalId: '#cleanFileReportModal',
-        modalWidth: '500px',
+        modalWidth: '700px',
         onSave: function ($modal) {
             // Read data from modal
             var formData = {

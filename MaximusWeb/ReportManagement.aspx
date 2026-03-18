@@ -304,6 +304,16 @@
             display: flex;
             align-items: center;
         }
+
+        .popup-button {
+            display: flex;
+            align-items: center; /* Aligns text and icon vertically */
+            justify-content: center; /* Optional: Centers content inside button */
+            background-color: #F7F4FA !important;
+            border: 1px solid #e6e4f2 !important;
+            color: #5c1a8c !important;
+            font-weight: 500 !important;
+        }
     </style>
 
 
@@ -515,31 +525,42 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <!-- Start Date -->
-                    <div class="mb-3">
-                        <label for="startDate" class="form-label">Start Date*</label>
-                        <div class="input-group">
-                            <input type="text" class="form-control" id="startDate" placeholder="MM/DD/YYYY" required>
-                            <span class="input-group-text">
-                                <span class="material-icons">calendar_today</span>
-                            </span>
+                    <!-- Date Row -->
+                    <div class="row">
+                        <!-- Start Date -->
+                        <div class="col-md-6 mb-3">
+                            <label for="startDate" class="form-label">Start Date*</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="startDate" placeholder="MM/DD/YYYY" required>
+                                <span class="input-group-text">
+                                    <span class="material-icons">calendar_today</span>
+                                </span>
+                            </div>
                         </div>
-                    </div>
-                    <!-- End Date -->
-                    <div class="mb-3">
-                        <label for="endDate" class="form-label">End Date*</label>
-                        <div class="input-group">
-                            <input type="text" class="form-control" id="endDate" placeholder="MM/DD/YYYY" required>
-                            <span class="input-group-text">
-                                <span class="material-icons">calendar_today</span>
-                            </span>
+                        <!-- End Date -->
+                        <div class="col-md-6 mb-3">
+                            <label for="endDate" class="form-label">End Date*</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="endDate" placeholder="MM/DD/YYYY" required>
+                                <span class="input-group-text">
+                                    <span class="material-icons">calendar_today</span>
+                                </span>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" id="cancelCleanFileReport" data-bs-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-primary" id="saveAndCloseReport">View Report</button>
+
+                <div class="modal-footer d-flex justify-content-between">
+                    <button type="button" class="btn btn-secondary popup-button" id="cancelCleanFileReport" data-bs-dismiss="modal">
+                        <span class="material-icons me-2">cancel</span> Cancel
+   
+                    </button>
+                    <button type="button" class="btn btn-primary popup-button" id="saveAndCloseReport">
+                        <span class="material-icons me-2">check_circle</span> View Report
+   
+                    </button>
                 </div>
+
             </div>
         </div>
     </div>
@@ -568,12 +589,12 @@
                 </div>
                 <div class="modal-footer">
                     <!-- Cancel button with Material Icon -->
-                    <button type="button" class="btn btn-secondary" id="cancelSelectTemplate" data-bs-dismiss="modal">
-                        <span class="material-icons-outlined">close</span> Cancel
+                    <button type="button" class="btn btn-secondary popup-button" id="cancelSelectTemplate" data-bs-dismiss="modal">
+                        <span class="material-icons me-2">cancel</span> Cancel
                     </button>
                     <!-- Save and Close button with Material Icon -->
-                    <button type="button" class="btn btn-primary" id="saveAndCloseTemplate">
-                        <span class="material-icons-outlined">check_circle</span> Confirm
+                    <button type="button" class="btn btn-primary popup-button" id="saveAndCloseTemplate">
+                        <span class="material-icons me-2">check_circle</span> Confirm
                     </button>
                 </div>
             </div>

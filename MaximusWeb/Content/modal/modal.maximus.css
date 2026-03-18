@@ -15,11 +15,11 @@
 /* Modal Header */
 .modal-header {
     padding: 16px 24px;
-    background-color: #f7f7f7; /* Light background for header */
-    border-bottom: 1px solid #ddd; /* Border for header */
+    background-color: #F7F4FA; /* Light background for header */
+    border-bottom: 1px solid #e6e4f2; /* Border for header */
     font-size: 18px; /* Title font size */
     font-weight: 600; /* Bold title */
-    color: #333;
+    color: #5c1a8c;
 }
 
 /* Modal Body */
@@ -70,7 +70,7 @@
 }
 
 /* Material Icons in Buttons */
-.material-icons-outlined {
+modal-dialog .material-icons-outlined {
     font-size: 18px; /* Icon size */
     color: inherit; /* Inherit the button's text color */
     margin-right: 8px; /* Space between icon and text */
