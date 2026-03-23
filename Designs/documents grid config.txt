@@ -1,0 +1,132 @@
+const DocumentService = {
+
+    getDocuments: function (section) {
+        return new Promise((resolve) => {
+
+            setTimeout(() => {
+
+                const mockData = {
+                    professional: [
+                        {
+                            documentType: "Texas License",
+                            fileName: "license1.pdf",
+                            source: "CASH",
+                            uploadedOn: "2023-12-21",
+                            status: "Completed"
+                        },
+                        {
+                            documentType: "Nebraska License",
+                            fileName: null,
+                            source: "--",
+                            uploadedOn: null,
+                            status: "Required"
+                        }
+                    ],
+
+                    dea: [
+                        {
+                            documentType: "DEA License",
+                            fileName: "dea.pdf",
+                            source: "CASH",
+                            uploadedOn: "2023-12-20",
+                            status: "Completed"
+                        }
+                    ],
+
+                    cds: [
+                        {
+                            documentType: "CDS License",
+                            fileName: null,
+                            source: "--",
+                            uploadedOn: null,
+                            status: "Required"
+                        }
+                    ],
+
+                    board: [
+                        {
+                            documentType: "Board Certification",
+                            fileName: "board.pdf",
+                            source: "User",
+                            uploadedOn: "2023-12-19",
+                            status: "Optional"
+                        }
+                    ],
+
+                    ecfmg: [
+                        {
+                            documentType: "ECFMG",
+                            fileName: "ecfmg.pdf",
+                            source: "CASH",
+                            uploadedOn: "2023-12-18",
+                            status: "Completed"
+                        }
+                    ],
+
+                    w9: [
+                        {
+                            documentType: "W-9",
+                            fileName: "w9.pdf",
+                            source: "CASH",
+                            uploadedOn: "2023-12-17",
+                            status: "Completed"
+                        }
+                    ],
+
+                    diploma: [
+                        {
+                            documentType: "School Diploma",
+                            fileName: "diploma.pdf",
+                            source: "User",
+                            uploadedOn: "2023-12-16",
+                            status: "Completed"
+                        }
+                    ],
+
+                    facility: [
+                        {
+                            documentType: "Facility License",
+                            fileName: null,
+                            source: "--",
+                            uploadedOn: null,
+                            status: "Required"
+                        }
+                    ]
+                };
+
+                resolve(mockData[section]);
+
+            }, 500); // simulate API delay
+        });
+    }
+};
+
+function loadGrid(containerId, section) {
+
+    // show loader (optional)
+    $(containerId).html("<div class='text-center p-3'>Loading...</div>");
+
+    DocumentService.getDocuments(section)
+        .then(data => {
+
+            initDocumentGrid(containerId, data);
+
+        })
+        .catch(err => {
+            $(containerId).html("<div class='text-danger'>Failed to load data</div>");
+        });
+}
+
+
+$(document).ready(function () {
+
+    loadGrid("#professionalLicenseGrid", "professional");
+    loadGrid("#deaLicenseGrid", "dea");
+    loadGrid("#cdsLicenseGrid", "cds");
+    loadGrid("#boardCertificationGrid", "board");
+    loadGrid("#ecfmgGrid", "ecfmg");
+    loadGrid("#w9Grid", "w9");
+    loadGrid("#schoolDiplomaGrid", "diploma");
+    loadGrid("#facilityLicenseGrid", "facility");
+
+});

@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Upload Section - Pixel Perfect</title>
+
+    <!-- Google Material Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <style>
+        body {
+            background: #f5f6fa;
+            font-family: "Segoe UI", Arial, sans-serif;
+            padding: 20px;
+        }
+
+        /* MAIN CARD */
+        .upload-card {
+            width: 100%;
+            max-width: 900px;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            padding: 16px 18px;
+        }
+
+        .upload-title {
+            font-size: 15px;
+            font-weight: 600;
+            color: #4b2e83;
+            margin-bottom: 12px;
+        }
+
+        /* INNER BOX */
+        .upload-box {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            background: #f3f1f7;
+            border-radius: 8px;
+            padding: 10px 12px;
+        }
+
+        /* LEFT SIDE */
+        .upload-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex: 1;
+        }
+
+        /* CIRCLE ICON */
+        .upload-icon-circle {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            border: 2px dashed #7b5cd6;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .upload-icon {
+            color: #7b5cd6;
+            font-size: 20px;
+        }
+
+        /* INPUT STYLE TEXT */
+        .upload-input {
+            flex: 1;
+            height: 36px;
+            background: #e9e7ef;
+            border-radius: 6px;
+
+            display: flex;
+            align-items: center;
+            padding: 0 12px;
+
+            font-size: 13px;
+            color: #8a859f;
+        }
+
+        /* RIGHT BUTTONS */
+        .upload-actions {
+            display: flex;
+            gap: 8px;
+            margin-left: 12px;
+        }
+
+        .btn {
+            height: 34px;
+            padding: 0 12px;
+            font-size: 13px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+        }
+
+        .btn-upload {
+            background: #f0eef6;
+            border: 1px solid #dcd6f2;
+            color: #4b2e83;
+        }
+
+        .btn-cancel {
+            background: #f0eef6;
+            border: 1px solid #dcd6f2;
+            color: #4b2e83;
+        }
+
+        .btn:hover {
+            background: #e7e3f3;
+        }
+
+        .material-icons {
+            font-size: 16px;
+        }
+
+        /* FOOTER TEXT */
+        .upload-footer {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 8px;
+
+            font-size: 12px;
+            color: #8c879f;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="upload-card">
+
+    <div class="upload-title">Upload Additional Document</div>
+
+    <div class="upload-box">
+
+        <!-- LEFT -->
+        <div class="upload-left">
+
+            <div class="upload-icon-circle">
+                <span class="material-icons upload-icon">arrow_upward</span>
+            </div>
+
+            <div class="upload-input">
+                Drag & Drop your file or Upload one
+            </div>
+
+        </div>
+
+        <!-- RIGHT -->
+        <div class="upload-actions">
+
+            <input type="file" id="fileUpload" hidden>
+
+            <button class="btn btn-upload" onclick="triggerUpload()">
+                <span class="material-icons">upload</span>
+                Upload
+            </button>
+
+            <button class="btn btn-cancel" onclick="cancelUpload()">
+                <span class="material-icons">close</span>
+                Cancel
+            </button>
+
+        </div>
+
+    </div>
+
+    <!-- FOOTER -->
+    <div class="upload-footer">
+        <div>File upload size: Maximum of 50 MB</div>
+        <div>Allowed file types: GIF, JPEG, PDF, PNG, TIF</div>
+    </div>
+
+</div>
+
+<script>
+    function triggerUpload() {
+        document.getElementById("fileUpload").click();
+    }
+
+    function cancelUpload() {
+        document.getElementById("fileUpload").value = "";
+    }
+
+    document.getElementById("fileUpload").addEventListener("change", function () {
+        if (this.files[0]) {
+            alert("Selected: " + this.files[0].name);
+        }
+    });
+</script>
+
+</body>
+</html>
