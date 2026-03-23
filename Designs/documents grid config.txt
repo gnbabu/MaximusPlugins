@@ -1,3 +1,73 @@
+function initDocumentGrid(containerId, data) {
+    $(containerId).maximusGrid({
+        data: data,
+        pageSize: 5,
+        sortable: true,
+        searchable: false,
+        columns: [
+            {
+                field: "documentType",
+                title: "Document Type",
+                type: "text"
+            },
+            {
+                field: "fileName",
+                title: "File Name",
+                type: "link",
+                template: (row) => {
+                    return row.fileName
+                        ? `<a href="#" class="text-primary">${row.fileName}</a>`
+                        : `<span class="text-danger">Not Found</span>`;
+                }
+            },
+            {
+                field: "source",
+                title: "Source",
+                type: "text"
+            },
+            {
+                field: "uploadedOn",
+                title: "Uploaded On",
+                type: "date"
+            },
+            {
+                field: "status",
+                title: "Status",
+                type: "badge",
+                template: (row) => {
+                    let cls = "secondary";
+
+                    if (row.status === "Completed") cls = "success";
+                    else if (row.status === "Optional") cls = "warning";
+                    else if (row.status === "Required") cls = "danger";
+
+                    return `<span class="badge bg-${cls}">${row.status}</span>`;
+                }
+            },
+            {
+                title: "Actions",
+                type: "actions",
+                actions: [
+                    {
+                        icon: "edit",
+                        class: "text-primary",
+                        click: (row) => {
+                            console.log("Edit", row);
+                        }
+                    },
+                    {
+                        icon: "delete",
+                        class: "text-danger",
+                        click: (row) => {
+                            console.log("Delete", row);
+                        }
+                    }
+                ]
+            }
+        ]
+    });
+}
+
 const DocumentService = {
 
     getDocuments: function (section) {
