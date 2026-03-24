@@ -122,6 +122,7 @@
     <Content Include="Content\datagrid\datagrid.maximus.css" />
     <Content Include="Content\Site.css" />
     <Content Include="Correspondence.aspx" />
+    <Content Include="DatePickerDemo.aspx" />
     <Content Include="Default.aspx" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
@@ -159,10 +160,12 @@
     <Content Include="Scripts\pages\report-management.js" />
     <Content Include="Scripts\pages\report-viewer.js" />
     <Content Include="Scripts\plugins\accordion\maximus.accordion.js" />
+    <Content Include="Scripts\plugins\datepicker\maximus.datePicker.js" />
     <Content Include="Scripts\plugins\modal\maximus.modal.plugin.js" />
     <Content Include="Scripts\services\reports.service.js" />
     <Content Include="WorkHistory.aspx" />
     <Content Include="Content\modal\modal.maximus.css" />
+    <Content Include="Content\datepicker\datepicker.maximus.css" />
     <None Include="Scripts\jquery-3.7.0.intellisense.js" />
     <Content Include="Scripts\core\api.service.js" />
     <Content Include="Scripts\core\config.js" />
@@ -237,6 +240,13 @@
     </Compile>
     <Compile Include="Correspondence.aspx.designer.cs">
       <DependentUpon>Correspondence.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="DatePickerDemo.aspx.cs">
+      <DependentUpon>DatePickerDemo.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="DatePickerDemo.aspx.designer.cs">
+      <DependentUpon>DatePickerDemo.aspx</DependentUpon>
     </Compile>
     <Compile Include="Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>
