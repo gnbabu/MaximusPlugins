@@ -60,6 +60,45 @@
         }
     });
 
+
+
+    let startDateValue = null;
+
+    // START DATE
+    $('#startDate').maximusDatePicker({
+        dateFormat: 'MM/DD/YYYY',
+
+        onDateSelect: function (date) {
+
+            startDateValue = date;
+
+            // 🔥 Re-init END DATE with minDate
+            $('#endDate').maximusDatePicker({
+                dateFormat: 'MM/DD/YYYY',
+                minDate: moment(date),   // cannot select before start
+            });
+
+            console.log("Start Date:", date);
+        }
+    });
+
+    // END DATE (initial)
+    $('#endDate').maximusDatePicker({
+        dateFormat: 'MM/DD/YYYY',
+
+        onDateSelect: function (date) {
+
+            if (startDateValue && moment(date).isBefore(startDateValue, 'day')) {
+                alert("End Date cannot be before Start Date ❌");
+                $('#endDate').val('');
+                return;
+            }
+
+            console.log("End Date:", date);
+        }
+    });
+
+
     // Initialize Select Template Modal
     var selectTemplateModal = $('#selectTemplateModal').modalPlugin({
         modalId: '#selectTemplateModal',

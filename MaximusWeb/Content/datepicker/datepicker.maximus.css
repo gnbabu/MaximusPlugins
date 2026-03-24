@@ -1,7 +1,7 @@
 ﻿/* ================= WRAPPER ================= */
 .maximus-date-wrapper {
     position: relative;
-    width: 320px;    
+    width: 320px;
 }
 
     /* ================= INPUT ================= */
@@ -33,101 +33,101 @@
         cursor: pointer;
     }
 
-    /* ================= CALENDAR ================= */
-    .maximus-date-wrapper .maximus-calendar {
-        position: absolute;
-        width: 100%;
-        background: #fff;
-        border-radius: 12px;
-        box-shadow: 0 8px 20px rgba(0,0,0,0.12);
-        overflow: hidden;
-        z-index: 9999;
+/* ================= CALENDAR (GLOBAL) ================= */
+.maximus-calendar {
+    position: fixed !important;
+    width: 280px;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+    overflow: hidden;
+    z-index: 999999 !important;
+}
+
+/* HEADER */
+.calendar-header {
+    background: #6f42c1;
+    color: #fff;
+    padding: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.month-year {
+    font-weight: 600;
+}
+
+/* NAV ICONS */
+.calendar-header .material-icons {
+    cursor: pointer;
+}
+
+/* ================= DROPDOWN ================= */
+.month-year-picker {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+}
+
+.month-select,
+.year-select {
+    border: none;
+    border-radius: 6px;
+    padding: 4px 6px;
+    font-size: 13px;
+    outline: none;
+    cursor: pointer;
+}
+
+.month-select {
+    min-width: 90px;
+}
+
+.year-select {
+    width: 70px;
+}
+
+/* ================= DAYS ================= */
+.calendar-days {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    padding: 10px;
+    gap: 6px;
+}
+
+.day {
+    text-align: center;
+    padding: 8px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+    /* HOVER */
+    .day:hover {
+        background: #eee;
     }
 
-    /* HEADER */
-    .maximus-date-wrapper .calendar-header {
+    /* ACTIVE */
+    .day.active {
         background: #6f42c1;
         color: #fff;
-        padding: 12px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
     }
 
-    .maximus-date-wrapper .month-year {
-        font-weight: 600;
+    /* TODAY */
+    .day.today {
+        border: 1px solid #6f42c1;
+        font-weight: bold;
     }
 
-    /* NAV ICONS */
-    .maximus-date-wrapper .calendar-header .material-icons {
-        cursor: pointer;
+    /* DISABLED */
+    .day.disabled {
+        color: #ccc;
+        pointer-events: none;
     }
 
-    /* ================= DROPDOWN ================= */
-    .maximus-date-wrapper .month-year-picker {
-        display: flex;
-        gap: 6px;
-        align-items: center;
+    /* EMPTY */
+    .day.empty {
+        visibility: hidden;
     }
-
-    .maximus-date-wrapper .month-select,
-    .maximus-date-wrapper .year-select {
-        border: none;
-        border-radius: 6px;
-        padding: 4px 6px;
-        font-size: 13px;
-        outline: none;
-        cursor: pointer;
-    }
-
-    .maximus-date-wrapper .month-select {
-        min-width: 90px;
-    }
-
-    .maximus-date-wrapper .year-select {
-        width: 70px;
-    }
-
-    /* ================= DAYS ================= */
-    .maximus-date-wrapper .calendar-days {
-        display: grid;
-        grid-template-columns: repeat(7, 1fr);
-        padding: 10px;
-        gap: 6px;
-    }
-
-    .maximus-date-wrapper .day {
-        text-align: center;
-        padding: 8px;
-        border-radius: 6px;
-        cursor: pointer;
-        font-size: 14px;
-    }
-
-        /* HOVER */
-        .maximus-date-wrapper .day:hover {
-            background: #eee;
-        }
-
-        /* ACTIVE */
-        .maximus-date-wrapper .day.active {
-            background: #6f42c1;
-            color: #fff;
-        }
-
-        /* TODAY */
-        .maximus-date-wrapper .day.today {
-            border: 1px solid #6f42c1;
-            font-weight: bold;
-        }
-
-        /* DISABLED */
-        .maximus-date-wrapper .day.disabled {
-            color: #ccc;
-            pointer-events: none;
-        }
-
-        /* EMPTY */
-        .maximus-date-wrapper .day.empty {
-            visibility: hidden;
-        }

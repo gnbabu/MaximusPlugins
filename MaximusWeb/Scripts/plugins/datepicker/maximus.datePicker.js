@@ -172,12 +172,17 @@
             activeCalendar = cal;
 
             // ✅ append inside wrapper
-            input.closest('.maximus-date-wrapper').append(cal);
+            $('body').append(cal);
 
             // ✅ position inside wrapper
+            const rect = input[0].getBoundingClientRect();
+
             cal.css({
-                top: input.outerHeight() + 6,
-                left: 0
+                position: 'fixed',
+                top: rect.bottom + 6,
+                left: rect.left,
+                width: input.outerWidth(),
+                zIndex: 999999
             });
 
             setTimeout(() => {
@@ -192,6 +197,18 @@
             activeCalendar = null;
             $(document).off('click.maximus');
         }
+
+        $(window).on('scroll resize', function () {
+            if (activeCalendar && activeCalendar.length) {
+                const rect = input[0].getBoundingClientRect();
+
+                activeCalendar.css({
+                    top: rect.bottom + 6,
+                    left: rect.left
+                });
+            }
+        });
+
 
         return this.each(function () {
 

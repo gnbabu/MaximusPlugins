@@ -22,6 +22,7 @@
 
     <link href="Content/accordion/maximus-accordion.css" rel="stylesheet" />
     <link href="Content/modal/modal.maximus.css" rel="stylesheet" />
+    <link href="Content/datepicker/datepicker.maximus.css" rel="stylesheet" />
 
 
     <style>
@@ -530,21 +531,17 @@
                         <!-- Start Date -->
                         <div class="col-md-6 mb-3">
                             <label for="startDate" class="form-label">Start Date*</label>
-                            <div class="input-group">
-                                <input type="text" class="form-control" id="startDate" placeholder="MM/DD/YYYY" required>
-                                <span class="input-group-text">
-                                    <span class="material-icons">calendar_today</span>
-                                </span>
+                            <div class="maximus-date-wrapper">
+                                <input type="text" class="form-control maximus-date-input" id="startDate" placeholder="MM/DD/YYYY" required />
+                                <span class="material-icons maximus-icon">calendar_today</span>
                             </div>
                         </div>
                         <!-- End Date -->
                         <div class="col-md-6 mb-3">
                             <label for="endDate" class="form-label">End Date*</label>
-                            <div class="input-group">
-                                <input type="text" class="form-control" id="endDate" placeholder="MM/DD/YYYY" required>
-                                <span class="input-group-text">
-                                    <span class="material-icons">calendar_today</span>
-                                </span>
+                            <div class="maximus-date-wrapper">
+                                <input type="text" class="form-control maximus-date-input" id="endDate" placeholder="MM/DD/YYYY" required />
+                                <span class="material-icons maximus-icon">calendar_today</span>
                             </div>
                         </div>
                     </div>
@@ -621,6 +618,7 @@
     <script src="Scripts/plugins/accordion/maximus.accordion.js"></script>
 
     <script src="Scripts/plugins/modal/maximus.modal.plugin.js"></script>
+    <script src="Scripts/plugins/datepicker/maximus.datePicker.js"></script>
 
     <script src="Scripts/pages/report-management.js"></script>
 
