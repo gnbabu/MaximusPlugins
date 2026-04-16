@@ -1,34 +1,50 @@
 ﻿$(function () {
 
     const request = {
-        regId: "string",
-        providerId: "string",
-        npi: "string",
-        dateFrom: "2026-03-04T17:31:24.619Z",
-        dateTo: "2026-03-04T17:31:24.619Z"
+        regId: "",
+        providerId: "",
+        npi: "",
+        dateFrom: null,
+        dateTo: null
     };
 
-    loadCorrespondence(request);
-
+    renderCorrespondenceGrid(request); // ✅ pass search model only
 });
 
-function loadCorrespondence(request) {
 
-    CorrespondenceService.search(request, function (response) {
 
-        renderCorrespondenceGrid(response);
+function loadPage(grid, searchRequest) {
 
+    const request = {
+        searchModel: searchRequest,
+        page: {
+            page: grid.page,
+            pageSize: grid.pageSize
+        }
+    };
+
+    CorrespondenceService.search(request, function (res) {
+
+        $('#correspondence-grid-container')[0]
+            .setData(res.data, res.totalRecords);
     });
-
 }
 
-function renderCorrespondenceGrid(data) {
+function renderCorrespondenceGrid(searchRequest) {
 
     $('#correspondence-grid-container')
         .removeClass('d-none')
         .dataGrid({
 
-            data: data,
+            data: [], // 🔥 EMPTY INIT
+
+            onPageChange: function (grid) {
+                loadPage(grid, searchRequest);
+            },
+
+            onPageSizeChange: function (grid) {
+                loadPage(grid, searchRequest);
+            },
 
             columns: [
                 {
@@ -57,6 +73,7 @@ function renderCorrespondenceGrid(data) {
             gridTitle: '',
             noDataMessage: 'No correspondence found.',
             idProperty: 'correspondenceId',
+
             enableRowSelection: true,
             enableAllColumnSearch: false,
             enableColumnFilters: true,
@@ -66,7 +83,11 @@ function renderCorrespondenceGrid(data) {
             includeTime: false
         });
 
+    // 🔥 INITIAL LOAD
+    loadPage({ page: 1, pageSize: 10 }, searchRequest);
 }
+
+
 //Example usage:
 //const ids = $('#grid')[0].getSelectedRows();
 
@@ -81,11 +102,3 @@ function renderCorrespondenceGrid(data) {
 //const selectedRows = $('#grid')[0].getSelectedRows();  // Get all selected row IDs
 //console.log(selectedRows);
 
-function clearCorrespondenceGrid() {
-
-    const $grid = $('#correspondence-grid-container');
-
-    $grid.empty();
-    $grid.addClass('d-none');
-
-}

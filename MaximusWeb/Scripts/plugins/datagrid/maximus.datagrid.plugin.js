@@ -10,6 +10,8 @@
             checkboxColumnWidth: '40px', // ✅ NEW
             pageSizeOptions: [5, 10, 20, 50, 100],
             initialPageSize: 10,
+            onPageChange: null,
+            onPageSizeChange: null,
             tableClass: 'maximus-base-table',
             theadClass: '',   // ✅ NEW
             rowClass: '',     // ✅ NEW
@@ -33,6 +35,7 @@
         let visibleColumns = {};
         let globalSearchText = '';
         let selectedRows = new Set();
+        let totalRecords = data.length;
 
         settings.columns.forEach(col => {
             col.visible = col.visible !== undefined ? col.visible : true;  // Default to true if not specified
@@ -72,6 +75,13 @@
                 visibleColumns[columnKey] = column.visible;
                 renderTable();  // Re-render the table after changing visibility
             }
+        };
+
+        $element[0].setData = function (newData, total) {
+            data = newData || [];
+            totalRecords = total || data.length;
+
+            renderServerData();
         };
 
         // Date parsing function
@@ -477,6 +487,74 @@
             }
         }
 
+        function renderServerData() {
+
+            const $tbody = $element.find('#table-body').empty();
+
+            if (data.length === 0) {
+                let colspan = settings.columns.filter(col => visibleColumns[col.key]).length;
+                if (settings.enableRowSelection) colspan += 1;
+
+                $tbody.append(`<tr>
+            <td colspan="${colspan}" class="text-center no-records">
+                ${settings.noDataMessage}
+            </td>
+        </tr>`);
+            } else {
+
+                data.forEach((row) => {
+
+                    const $tr = $('<tr class="dg-data-row">');
+
+                    if (settings.enableRowSelection) {
+                        const rowId = row[settings.idProperty];
+                        const checked = selectedRows.has(rowId) ? 'checked' : '';
+
+                        $tr.append(`
+                    <td>
+                        <input type="checkbox"
+                               class="dg-row-select"
+                               data-id="${rowId}"
+                               ${checked}>
+                    </td>
+                `);
+                    }
+
+                    settings.columns.forEach(col => {
+
+                        if (col.visible === false) return; // ✅ FIX
+                        if (!visibleColumns[col.key]) return;
+
+                        let value = row[col.key] ?? '';
+
+                        if (col.cellTemplate) {
+                            value = typeof col.cellTemplate === 'function'
+                                ? col.cellTemplate(row)
+                                : value;
+                        }
+                        else if (col.type === 'date' && value) {
+                            value = formatDateForDisplay(value);
+                        }
+
+                        $tr.append(`<td>${value}</td>`);
+                    });
+
+                    $tbody.append($tr);
+                });
+            }
+
+            // ✅ FIX 1: always call this
+            updateSelectAllState();
+
+            const start = (page - 1) * pageSize;
+
+            $element.find('#page-info').text(
+                `${start + 1} to ${Math.min(start + pageSize, totalRecords)} of ${totalRecords}`
+            );
+
+            renderPagination(Math.ceil(totalRecords / pageSize));
+        }
+
         function updateSelectAllState() {
 
             if (!settings.enableRowSelection) return;
@@ -521,14 +599,23 @@
             $pagination.off('click').on('click', '.page-num', function (e) {
                 e.preventDefault();
                 page = parseInt($(this).data('page'));
-                renderTable();
+                if (settings.onPageChange) {
+                    settings.onPageChange({ page, pageSize });
+                } else {
+                    renderTable();
+                }
             });
 
             $pagination.on('click', '.page-prev', function (e) {
                 e.preventDefault();
                 if (page > 1) {
                     page--;
-                    renderTable();
+
+                    if (settings.onPageChange) {
+                        settings.onPageChange({ page, pageSize });
+                    } else {
+                        renderTable();
+                    }
                 }
             });
 
@@ -536,7 +623,12 @@
                 e.preventDefault();
                 if (page < totalPages) {
                     page++;
-                    renderTable();
+
+                    if (settings.onPageChange) {
+                        settings.onPageChange({ page, pageSize });
+                    } else {
+                        renderTable();
+                    }
                 }
             });
 
@@ -637,7 +729,11 @@
             $element.find('#page-size-dropdown').change(function () {
                 pageSize = parseInt($(this).val());
                 page = 1;
-                renderTable();
+                if (settings.onPageSizeChange) {
+                    settings.onPageSizeChange({ page, pageSize });
+                } else {
+                    renderTable();
+                }
             });
 
             if (settings.enableColumnFilters) {
@@ -714,7 +810,9 @@
             });
 
 
-            fetchDataFromApi();
+            //fetchDataFromApi();
+            buildTableHeader();
+            renderTable();
         }
 
         initialize();

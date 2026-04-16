@@ -181,9 +181,43 @@ namespace MaximusWebAPI.Controllers
 
         [HttpPost]
         [Route("search")]
-        public IActionResult Search([FromBody] CorrespondenceSearchRequest request)
+        public IActionResult Search([FromBody] CorrespondenceGridRequest request)
         {
-            return Ok(MockData);
+            var search = request.SearchModel;
+            var page = request.Page;
+
+            var query = MockData.AsQueryable();
+
+            // ✅ Business filters
+            if (!string.IsNullOrEmpty(search.RegId))
+                query = query.Where(x => x.RegId == search.RegId);
+
+            if (!string.IsNullOrEmpty(search.ProviderId))
+                query = query.Where(x => x.ProviderId == search.ProviderId);
+
+            if (!string.IsNullOrEmpty(search.Npi))
+                query = query.Where(x => x.Npi == search.Npi);
+
+            if (search.DateFrom.HasValue)
+                query = query.Where(x => x.DateAvailableFrom >= search.DateFrom.Value);
+
+            if (search.DateTo.HasValue)
+                query = query.Where(x => x.DateAvailableTo <= search.DateTo.Value);
+
+            // ✅ total count
+            var totalRecords = query.Count();
+
+            // ✅ paging only
+            var data = query
+                .Skip((page.Page - 1) * page.PageSize)
+                .Take(page.PageSize)
+                .ToList();
+
+            return Ok(new
+            {
+                data,
+                totalRecords
+            });
         }
 
     }

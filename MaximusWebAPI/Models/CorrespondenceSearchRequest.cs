@@ -29,4 +29,16 @@ namespace MaximusWebAPI.Models
         public DateTime DateAvailableTo { get; set; }
     }
 
+
+    public class PageRequest
+    {
+        public int Page { get; set; }
+        public int PageSize { get; set; }
+    }
+
+    public class CorrespondenceGridRequest
+    {
+        public CorrespondenceSearchRequest SearchModel { get; set; }
+        public PageRequest Page { get; set; }
+    }
 }
