@@ -17,7 +17,7 @@
         padding: 10px 14px;
         border-bottom: 1px solid #ddd !important;
         vertical-align: middle;
-        word-wrap: break-word;        
+        word-wrap: break-word;
     }
 
     /* ================= FILTER INPUT ================= */
@@ -128,3 +128,110 @@ th:hover .sort-icon {
 .dg-odd {
     background: #ffffff;
 }
+
+/* ================= PAGINATION ================= */
+
+.dg-pagination-wrapper {
+    display: flex;
+    align-items: baseline;
+    justify-content: flex-end;
+    gap: 6px;
+    width: 100%;
+}
+
+/* Fixed sections */
+.dg-page-prev,
+.dg-page-next {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+}
+
+/* ================= WRAPPER (KEY FIX) ================= */
+
+.dg-page-numbers-wrapper {
+    max-width: 300px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+}
+
+/* ================= SCROLL AREA ================= */
+
+.dg-page-numbers {
+    display: flex;
+    gap: 6px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding-bottom: 4px;
+    margin-bottom: -4px; /* 🔥 cancels scrollbar height */
+
+    scroll-behavior: smooth;
+}
+
+    /* Scrollbar */
+    .dg-page-numbers::-webkit-scrollbar {
+        height: 6px;
+    }
+
+    .dg-page-numbers::-webkit-scrollbar-thumb {
+        background: #ccc;
+        border-radius: 10px;
+    }
+
+/* ================= COMMON ================= */
+
+.dg-page-num,
+.dg-prev-btn,
+.dg-next-btn {
+    height: 32px;
+    min-width: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    border: 1px solid #ddd;
+    background: #fff;
+    color: #6e42a3;
+    box-sizing: border-box;
+    flex: 0 0 auto;
+}
+
+/* ================= PAGE NUMBERS ================= */
+
+.dg-page-num {
+    padding: 0 10px;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+    .dg-page-num.active {
+        background-color: #6e42a3;
+        color: #fff;
+        border-color: #6e42a3;
+    }
+
+    .dg-page-num:hover {
+        background-color: #efedf5;
+    }
+
+/* ================= BUTTONS ================= */
+
+.dg-prev-btn,
+.dg-next-btn {
+    padding: 0 12px;
+    cursor: pointer;
+}
+
+    .dg-prev-btn:hover,
+    .dg-next-btn:hover {
+        background: #efedf5;
+    }
+
+    /* Disabled */
+    .dg-prev-btn.disabled,
+    .dg-next-btn.disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+        pointer-events: none;
+    }

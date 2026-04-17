@@ -572,33 +572,50 @@
         }
 
         function renderPagination(totalPages) {
-            const $pagination = $element.find('#pagination');
 
-            $pagination.empty(); // 🔴 clear existing pagination
+            const $wrapper = $element.find('.dg-pagination-wrapper');
+            const $prev = $wrapper.find('.dg-page-prev');
+            const $numbers = $wrapper.find('.dg-page-numbers');
+            const $next = $wrapper.find('.dg-page-next');
 
-            let html = `
-        <li class="page-item page-prev">
-            <a class="page-link" href="#">Previous</a>
-        </li>`;
+            $prev.empty();
+            $numbers.empty();
+            $next.empty();
 
+            const isFirst = page === 1;
+            const isLast = page === totalPages;
+
+            // ✅ Prev (disabled on first page)
+            $prev.html(`
+                    <button type="button" class="btn btn-sm btn-light dg-prev-btn ${isFirst ? 'disabled' : ''}">
+                        Previous
+                    </button>
+                `);
+
+            // ✅ Page numbers
+            let html = '';
             for (let i = 1; i <= totalPages; i++) {
                 html += `
-            <li class="page-item page-num" data-page="${i}">
-                <a class="page-link" href="#">${i}</a>
-            </li>`;
+                    <span class="dg-page-num ${i === page ? 'active' : ''}" data-page="${i}">
+                        ${i}
+                    </span>
+                `;
             }
+            $numbers.html(html);
 
-            html += `
-        <li class="page-item page-next">
-            <a class="page-link" href="#">Next</a>
-        </li>`;
+            // ✅ Next (FIXED: add disabled)
+            $next.html(`
+                        <button type="button" class="btn btn-sm btn-light dg-next-btn ${isLast ? 'disabled' : ''}">
+                            Next
+                        </button>
+                    `);
 
-            $pagination.html(html);
+            // 🔥 EVENTS
 
-            // Event delegation
-            $pagination.off('click').on('click', '.page-num', function (e) {
-                e.preventDefault();
+            // Page number
+            $numbers.off('click').on('click', '.dg-page-num', function () {
                 page = parseInt($(this).data('page'));
+
                 if (settings.onPageChange) {
                     settings.onPageChange({ page, pageSize });
                 } else {
@@ -606,33 +623,33 @@
                 }
             });
 
-            $pagination.on('click', '.page-prev', function (e) {
-                e.preventDefault();
-                if (page > 1) {
-                    page--;
+            // Prev
+            $prev.off('click').on('click', '.dg-prev-btn', function () {
 
-                    if (settings.onPageChange) {
-                        settings.onPageChange({ page, pageSize });
-                    } else {
-                        renderTable();
-                    }
+                if (page === 1) return; // ✅ HARD BLOCK
+
+                page--;
+
+                if (settings.onPageChange) {
+                    settings.onPageChange({ page, pageSize });
+                } else {
+                    renderTable();
                 }
             });
 
-            $pagination.on('click', '.page-next', function (e) {
-                e.preventDefault();
-                if (page < totalPages) {
-                    page++;
+            // Next
+            $next.off('click').on('click', '.dg-next-btn', function () {
 
-                    if (settings.onPageChange) {
-                        settings.onPageChange({ page, pageSize });
-                    } else {
-                        renderTable();
-                    }
+                if (page === totalPages) return; // ✅ HARD BLOCK
+
+                page++;
+
+                if (settings.onPageChange) {
+                    settings.onPageChange({ page, pageSize });
+                } else {
+                    renderTable();
                 }
             });
-
-            updatePaginationState(totalPages);
         }
 
         function updatePaginationState(totalPages) {
@@ -714,7 +731,15 @@
 
     <div class="col-md-6">
         <nav aria-label="Page navigation" class="d-flex justify-content-md-end">
-            <ul class="pagination pagination-sm mb-0" id="pagination"></ul>
+            <div class="dg-pagination-wrapper">
+                <div class="dg-page-prev"></div>
+
+                <div class="dg-page-numbers-wrapper">
+                    <div class="dg-page-numbers"></div>
+                </div>
+
+                <div class="dg-page-next"></div>
+            </div>
         </nav>
     </div>
 
