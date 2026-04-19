@@ -22,7 +22,8 @@
             enableColumnFilters: false,
             enableSorting: false, // overall sorting, defaults to false
             dateFormat: 'MM-DD-YYYY',
-            includeTime: false//  option for formatting dates with time
+            includeTime: false, //  option for formatting dates with time
+            enableClientSideSortNoReset: false
         }, options);
 
         let $element = $(this);
@@ -114,6 +115,20 @@
         }
 
 
+        function updateSortIconsOnly() {
+
+            // reset all icons
+            $element.find('.sort-icon').text('unfold_more');
+
+            if (sortKey) {
+                const icon = sortAsc ? 'arrow_upward' : 'arrow_downward';
+
+                $element
+                    .find(`span[data-key="${sortKey}"] .sort-icon`)
+                    .text(icon);
+            }
+        }
+
         function buildTableHeader() {
             const $thead = $element.find('#table-head').empty();
 
@@ -154,14 +169,26 @@
 
                 const hasTitle = col.title != null && col.title !== '';
                 const labelText = hasTitle ? col.title + sortIcon : '';
-                const $labelSpan = $('<span>').html(col.title + (sortIcon ? ' ' + sortIcon : ''));
+                const $labelSpan = $('<span>')
+                    .attr('data-key', col.key)   // 🔥 IMPORTANT
+                    .html(col.title + (sortIcon ? ' ' + sortIcon : ''));
 
                 // Sorting
                 if (settings.enableSorting !== false && col.sortable !== false) {
                     $labelSpan.css('cursor', 'pointer').click(() => {
                         sortKey === col.key ? sortAsc = !sortAsc : (sortKey = col.key, sortAsc = true);
-                        buildTableHeader();
-                        renderTable();
+                        // ✅ ONLY for your case
+                        if (settings.enableClientSideSortNoReset) {
+
+                            updateSortIconsOnly(); // ✅ only icon update
+                            renderTable(); // no header rebuild → no page reset
+
+                        } else {
+
+                            // ✅ existing behavior untouched
+                            buildTableHeader();
+                            renderTable();
+                        }
                     });
                 } else {
                     $labelSpan.css('cursor', 'default');
@@ -394,8 +421,35 @@
                 });
             }
 
-            const start = (page - 1) * pageSize;
-            const paged = filtered.slice(start, start + pageSize);
+            let paged;
+
+            // 🔥 HYBRID MODE (server paging + client sort)
+            if (settings.enableClientSideSortNoReset) {
+
+                // 👉 DO NOT slice again (data already paged from server)
+                paged = [...filtered];
+
+                // apply sorting ONLY on current page
+                if (settings.enableSorting !== false && sortKey) {
+                    paged.sort((a, b) => {
+
+                        let valA = a[sortKey], valB = b[sortKey];
+
+                        if (typeof valA === "string") valA = valA.toLowerCase();
+                        if (typeof valB === "string") valB = valB.toLowerCase();
+
+                        return sortAsc
+                            ? (valA > valB ? 1 : -1)
+                            : (valA < valB ? 1 : -1);
+                    });
+                }
+
+            } else {
+
+                // 👉 normal client-side mode
+                const start = (page - 1) * pageSize;
+                paged = filtered.slice(start, start + pageSize);
+            }
 
             if (paged.length === 0) {
                 let colspan = settings.columns.filter(col => visibleColumns[col.key]).length;
@@ -475,12 +529,23 @@
                 updateSelectAllState();
             }
 
-            if (filtered.length > 0) {
+            const total = settings.enableClientSideSortNoReset
+                ? totalRecords
+                : filtered.length;
+
+            if (total > 0) {
+
+                const startIndex = (page - 1) * pageSize + 1;
+                const endIndex = Math.min(page * pageSize, total);
+
                 $element.find('#page-info').text(
-                    `${start + 1} to ${Math.min(start + pageSize, filtered.length)} of ${filtered.length} entries`
+                    `${startIndex} to ${endIndex} of ${total} entries`
                 ).show();
+
                 $element.find('#pagination').parent().show();
-                renderPagination(Math.ceil(filtered.length / pageSize));
+
+                renderPagination(Math.ceil(total / pageSize));
+
             } else {
                 $element.find('#page-info').hide();
                 $element.find('#pagination').parent().hide();
@@ -548,11 +613,27 @@
 
             const start = (page - 1) * pageSize;
 
-            $element.find('#page-info').text(
-                `${start + 1} to ${Math.min(start + pageSize, totalRecords)} of ${totalRecords}`
-            );
+            const total = settings.enableClientSideSortNoReset
+                ? totalRecords
+                : data.length;
 
-            renderPagination(Math.ceil(totalRecords / pageSize));
+            if (total > 0) {
+
+                const startIndex = (page - 1) * pageSize + 1;
+                const endIndex = Math.min(page * pageSize, total);
+
+                $element.find('#page-info').text(
+                    `${startIndex} to ${endIndex} of ${total} entries`
+                ).show();
+
+                $element.find('#pagination').parent().show();
+
+                renderPagination(Math.ceil(total / pageSize));
+
+            } else {
+                $element.find('#page-info').hide();
+                $element.find('#pagination').parent().hide();
+            }
         }
 
         function updateSelectAllState() {

@@ -39,10 +39,12 @@ function renderCorrespondenceGrid(searchRequest) {
             data: [], // 🔥 EMPTY INIT
 
             onPageChange: function (grid) {
+                debugger
                 loadPage(grid, searchRequest);
             },
 
             onPageSizeChange: function (grid) {
+                debugger;
                 loadPage(grid, searchRequest);
             },
 
@@ -78,7 +80,7 @@ function renderCorrespondenceGrid(searchRequest) {
             enableAllColumnSearch: false,
             enableColumnFilters: true,
             enableSorting: true,
-
+            enableClientSideSortNoReset: true,
             dateFormat: 'MM-DD-YYYY',
             includeTime: false
         });
