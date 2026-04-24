@@ -1,6 +1,6 @@
 ﻿$(function () {
 
-    const request = {
+    const searchRequest = {
         regId: "",
         providerId: "",
         npi: "",
@@ -8,27 +8,8 @@
         dateTo: null
     };
 
-    renderCorrespondenceGrid(request); // ✅ pass search model only
+    renderCorrespondenceGrid(searchRequest);
 });
-
-
-
-function loadPage(grid, searchRequest) {
-
-    const request = {
-        searchModel: searchRequest,
-        page: {
-            page: grid.page,
-            pageSize: grid.pageSize
-        }
-    };
-
-    CorrespondenceService.search(request, function (res) {
-
-        $('#correspondence-grid-container')[0]
-            .setData(res.data, res.totalRecords);
-    });
-}
 
 function renderCorrespondenceGrid(searchRequest) {
 
@@ -36,16 +17,13 @@ function renderCorrespondenceGrid(searchRequest) {
         .removeClass('d-none')
         .dataGrid({
 
-            data: [], // 🔥 EMPTY INIT
+            apiUrl: 'https://localhost:7157/api/correspondence/search', // ✅ IMPORTANT
 
-            onPageChange: function (grid) {
-                debugger
-                loadPage(grid, searchRequest);
-            },
+            enableServerSide: true,               // ✅ MAIN FLAG
 
-            onPageSizeChange: function (grid) {
-                debugger;
-                loadPage(grid, searchRequest);
+            // 🔥 merge your custom request (business filters)
+            buildRequest: function () {
+                return searchRequest;
             },
 
             columns: [
@@ -80,27 +58,11 @@ function renderCorrespondenceGrid(searchRequest) {
             enableAllColumnSearch: false,
             enableColumnFilters: true,
             enableSorting: true,
-            enableClientSideSortNoReset: true,
+
+            // ⚠️ IMPORTANT
+            enableClientSideSortNoReset: false, // ❌ disable hybrid in server mode
+
             dateFormat: 'MM-DD-YYYY',
             includeTime: false
         });
-
-    // 🔥 INITIAL LOAD
-    loadPage({ page: 1, pageSize: 10 }, searchRequest);
 }
-
-
-//Example usage:
-//const ids = $('#grid')[0].getSelectedRows();
-
-//$('#grid')[0].selectRow(5);
-
-//$('#grid')[0].clearSelection();
-
-//$('#grid')[0].toggleColumnVisibility('phone', false);  // Hides the "Phone" column
-
-//$('#grid')[0].toggleColumnVisibility('phone', false);  // Hides the "Phone" column
-
-//const selectedRows = $('#grid')[0].getSelectedRows();  // Get all selected row IDs
-//console.log(selectedRows);
-

@@ -3,6 +3,7 @@
         // Default settings
         let settings = $.extend({
             apiUrl: null,
+            enableServerSide: false,
             data: [],
             columns: [],
             rowTemplate: null,
@@ -37,6 +38,7 @@
         let globalSearchText = '';
         let selectedRows = new Set();
         let totalRecords = data.length;
+        let isServer = settings.enableServerSide === true;
 
         settings.columns.forEach(col => {
             col.visible = col.visible !== undefined ? col.visible : true;  // Default to true if not specified
@@ -74,7 +76,11 @@
             if (column) {
                 column.visible = isVisible !== undefined ? isVisible : true;
                 visibleColumns[columnKey] = column.visible;
-                renderTable();  // Re-render the table after changing visibility
+                if (isServer) {
+                    renderServerData();
+                } else {
+                    renderTable();
+                }
             }
         };
 
@@ -176,16 +182,23 @@
                 // Sorting
                 if (settings.enableSorting !== false && col.sortable !== false) {
                     $labelSpan.css('cursor', 'pointer').click(() => {
-                        sortKey === col.key ? sortAsc = !sortAsc : (sortKey = col.key, sortAsc = true);
-                        // ✅ ONLY for your case
-                        if (settings.enableClientSideSortNoReset) {
 
-                            updateSortIconsOnly(); // ✅ only icon update
-                            renderTable(); // no header rebuild → no page reset
+                        sortKey === col.key
+                            ? sortAsc = !sortAsc
+                            : (sortKey = col.key, sortAsc = true);
+
+                        if (isServer) {
+
+                            updateSortIconsOnly();   // optional but good UX
+                            fetchServerData();       // 🔥 MAIN FIX
+
+                        } else if (settings.enableClientSideSortNoReset) {
+
+                            updateSortIconsOnly();
+                            renderTable();
 
                         } else {
 
-                            // ✅ existing behavior untouched
                             buildTableHeader();
                             renderTable();
                         }
@@ -276,14 +289,22 @@
                             $val1.val('');
                             $val2.val('').hide();
                             page = 1;
-                            renderTable();
+                            if (isServer) {
+                                fetchServerData();
+                            } else {
+                                renderTable();
+                            }
                             bootstrap.Dropdown.getInstance($inputGroup.find('.dropdown-toggle')[0])?.hide();
                             return;
                         }
 
                         filters[col.key] = { op, value1, value2 };
                         page = 1;
-                        renderTable();
+                        if (isServer) {
+                            fetchServerData();
+                        } else {
+                            renderTable();
+                        }
                         bootstrap.Dropdown.getInstance($inputGroup.find('.dropdown-toggle')[0])?.hide();
                     });
 
@@ -294,7 +315,11 @@
                         $val1.val('');
                         $val2.val('').hide();
                         page = 1;
-                        renderTable();
+                        if (isServer) {
+                            fetchServerData();
+                        } else {
+                            renderTable();
+                        }
                         bootstrap.Dropdown.getInstance($inputGroup.find('.dropdown-toggle')[0])?.hide();
                     });
 
@@ -396,10 +421,12 @@
 
 
         function renderTable() {
+            if (isServer) return;
+
             const $tbody = $element.find('#table-body').empty();
             let filtered = applyFilters(data);
 
-            if (globalSearchText) {
+            if (!isServer && globalSearchText) {
                 const search = globalSearchText?.toLowerCase().trim();
                 if (search) {
                     filtered = filtered.filter(row =>
@@ -412,7 +439,7 @@
             }
 
             // Apply sorting if enabled and sortKey exists
-            if (settings.enableSorting !== false && sortKey) {
+            if (!isServer && settings.enableSorting !== false && sortKey) {
                 filtered.sort((a, b) => {
                     let valA = a[sortKey], valB = b[sortKey];
                     if (typeof valA === "string") valA = valA.toLowerCase();
@@ -424,15 +451,17 @@
             let paged;
 
             // 🔥 HYBRID MODE (server paging + client sort)
-            if (settings.enableClientSideSortNoReset) {
 
-                // 👉 DO NOT slice again (data already paged from server)
+            if (isServer) {
+
+                paged = data; // ✅ already paged from server
+
+            } else if (settings.enableClientSideSortNoReset) {
+
                 paged = [...filtered];
 
-                // apply sorting ONLY on current page
-                if (settings.enableSorting !== false && sortKey) {
+                if (!isServer && settings.enableSorting !== false && sortKey) {
                     paged.sort((a, b) => {
-
                         let valA = a[sortKey], valB = b[sortKey];
 
                         if (typeof valA === "string") valA = valA.toLowerCase();
@@ -446,7 +475,6 @@
 
             } else {
 
-                // 👉 normal client-side mode
                 const start = (page - 1) * pageSize;
                 paged = filtered.slice(start, start + pageSize);
             }
@@ -529,9 +557,9 @@
                 updateSelectAllState();
             }
 
-            const total = settings.enableClientSideSortNoReset
+            const total = isServer
                 ? totalRecords
-                : filtered.length;
+                : (settings.enableClientSideSortNoReset ? totalRecords : filtered.length);
 
             if (total > 0) {
 
@@ -587,7 +615,7 @@
 
                     settings.columns.forEach(col => {
 
-                        if (col.visible === false) return; // ✅ FIX
+                        if (col.visible === false) return;
                         if (!visibleColumns[col.key]) return;
 
                         let value = row[col.key] ?? '';
@@ -608,18 +636,22 @@
                 });
             }
 
-            // ✅ FIX 1: always call this
             updateSelectAllState();
 
-            const start = (page - 1) * pageSize;
-
-            const total = settings.enableClientSideSortNoReset
-                ? totalRecords
-                : data.length;
+            const total = totalRecords;
 
             if (total > 0) {
 
-                const startIndex = (page - 1) * pageSize + 1;
+                // ✅ FIX 1: calculate totalPages
+                const totalPages = Math.ceil(total / pageSize);
+
+                // ✅ FIX 2: clamp page (VERY IMPORTANT)
+                if (page > totalPages) {
+                    page = totalPages || 1;
+                }
+
+                // ✅ FIX 3: safe start/end indexes
+                const startIndex = total === 0 ? 0 : ((page - 1) * pageSize) + 1;
                 const endIndex = Math.min(page * pageSize, total);
 
                 $element.find('#page-info').text(
@@ -628,7 +660,8 @@
 
                 $element.find('#pagination').parent().show();
 
-                renderPagination(Math.ceil(total / pageSize));
+                // ✅ FIX 4: pass correct totalPages
+                renderPagination(totalPages);
 
             } else {
                 $element.find('#page-info').hide();
@@ -697,7 +730,9 @@
             $numbers.off('click').on('click', '.dg-page-num', function () {
                 page = parseInt($(this).data('page'));
 
-                if (settings.onPageChange) {
+                if (isServer) {
+                    fetchServerData();
+                } else if (settings.onPageChange) {
                     settings.onPageChange({ page, pageSize });
                 } else {
                     renderTable();
@@ -711,7 +746,9 @@
 
                 page--;
 
-                if (settings.onPageChange) {
+                if (isServer) {
+                    fetchServerData();
+                } else if (settings.onPageChange) {
                     settings.onPageChange({ page, pageSize });
                 } else {
                     renderTable();
@@ -721,11 +758,15 @@
             // Next
             $next.off('click').on('click', '.dg-next-btn', function () {
 
-                if (page === totalPages) return; // ✅ HARD BLOCK
+                if ($(this).hasClass('disabled')) return; // ✅ UI guard
+
+                if (page >= totalPages) return;           // ✅ logic guard
 
                 page++;
 
-                if (settings.onPageChange) {
+                if (isServer) {
+                    fetchServerData();
+                } else if (settings.onPageChange) {
                     settings.onPageChange({ page, pageSize });
                 } else {
                     renderTable();
@@ -752,27 +793,69 @@
             }
         }
 
-        function fetchDataFromApi() {
-            if (settings.apiUrl) {
-                $.ajax({
-                    url: settings.apiUrl,
-                    method: 'GET',
-                    success: function (response) {
-                        data = response;
-                        page = 1;
-                        buildTableHeader();
-                        renderTable();
-                    },
-                    error: function (err) {
-                        alert("Error loading data.");
-                        console.error(err);
-                    }
-                });
-            } else {
-                page = 1;
-                buildTableHeader();
-                renderTable();
+        let currentRequest = null;
+        function fetchServerData() {
+            debugger;
+            if (!settings.apiUrl) return;
+
+            if (currentRequest) {
+                currentRequest.abort();
             }
+
+            const request = {
+                page: page,
+                pageSize: pageSize,
+                sortKey: sortKey,
+                sortAsc: sortAsc,
+                filters: buildServerFilters(),
+                searchText: globalSearchText   // 🔥 ADD THIS
+            };
+
+            // 👉 merge custom request (like CorrespondenceSearchRequest)
+            if (typeof settings.buildRequest === 'function') {
+                Object.assign(request, settings.buildRequest());
+            }
+
+            currentRequest = $.ajax({
+                url: settings.apiUrl,
+                method: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(request),
+                success: function (res) {
+
+                    data = res.data || [];
+                    totalRecords = res.total || 0;
+
+                    renderServerData();
+                    currentRequest = null;
+                },
+                error: function (err) {
+                    console.error(err);
+                    currentRequest = null; // 🔥 important
+                }
+            });
+        }
+
+        function buildServerFilters() {
+
+            const result = [];
+
+            Object.keys(filters).forEach(key => {
+
+                const f = filters[key];
+
+                if (!f.value1) return;
+
+                result.push({
+                    column: key,
+                    operator: f.op,
+                    value: f.op === 'between'
+                        ? `${f.value1}|${f.value2}`
+                        : f.value1
+                });
+            });
+
+            return result;
         }
 
         function initialize() {
@@ -833,9 +916,13 @@
             });
 
             $element.find('#page-size-dropdown').change(function () {
+
                 pageSize = parseInt($(this).val());
                 page = 1;
-                if (settings.onPageSizeChange) {
+
+                if (isServer) {
+                    fetchServerData();   // ✅ SERVER
+                } else if (settings.onPageSizeChange) {
                     settings.onPageSizeChange({ page, pageSize });
                 } else {
                     renderTable();
@@ -866,14 +953,32 @@
                     sortAsc = true;
                     page = 1;
                     buildTableHeader();
-                    renderTable();
+                    if (isServer) {
+                        fetchServerData();
+                    } else {
+                        renderTable();
+                    }
                 });
             }
             if (settings.enableAllColumnSearch) {
+                let searchTimeout;
+
                 $element.find('#common-search').on('input', function () {
-                    globalSearchText = $(this).val().toLowerCase();
-                    page = 1;
-                    renderTable();
+
+                    clearTimeout(searchTimeout);
+
+                    searchTimeout = setTimeout(() => {
+
+                        globalSearchText = $(this).val().toLowerCase();
+                        page = 1;
+
+                        if (isServer) {
+                            fetchServerData();
+                        } else {
+                            renderTable();
+                        }
+
+                    }, 300);
                 });
             }
 
@@ -916,9 +1021,13 @@
             });
 
 
-            //fetchDataFromApi();
             buildTableHeader();
-            renderTable();
+
+            if (isServer) {
+                fetchServerData();
+            } else {
+                renderTable();
+            }
         }
 
         initialize();

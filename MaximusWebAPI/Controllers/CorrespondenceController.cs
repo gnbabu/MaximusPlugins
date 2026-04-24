@@ -203,16 +203,142 @@ namespace MaximusWebAPI.Controllers
             return list;
         }
 
+        private IQueryable<CorrespondenceSearchResult> ApplyFilters(
+    IQueryable<CorrespondenceSearchResult> query,
+    List<Filter> filters)
+        {
+            if (filters == null || !filters.Any())
+                return query;
+
+            foreach (var f in filters)
+            {
+                if (string.IsNullOrEmpty(f.Value)) continue;
+
+                switch (f.Column?.ToLower())
+                {
+                    case "subject":
+                        query = ApplyStringFilter(query, x => x.Subject, f);
+                        break;
+
+                    case "medicaidid":
+                        query = ApplyStringFilter(query, x => x.MedicaidId, f);
+                        break;
+
+                    case "regid":
+                        query = ApplyStringFilter(query, x => x.RegId, f);
+                        break;
+
+                    case "providerid":
+                        query = ApplyStringFilter(query, x => x.ProviderId, f);
+                        break;
+
+                    case "npi":
+                        query = ApplyStringFilter(query, x => x.Npi, f);
+                        break;
+
+                    case "dateavailablefrom":
+                        query = ApplyDateFilter(query, x => x.DateAvailableFrom, f);
+                        break;
+
+                    case "dateavailableto":
+                        query = ApplyDateFilter(query, x => x.DateAvailableTo, f);
+                        break;
+                }
+            }
+
+            return query;
+        }
+
+        private IQueryable<CorrespondenceSearchResult> ApplySorting(
+    IQueryable<CorrespondenceSearchResult> query,
+    string sortKey,
+    bool sortAsc)
+        {
+            if (string.IsNullOrWhiteSpace(sortKey))
+                return query.OrderByDescending(x => x.CorrespondenceId); // default
+
+            switch (sortKey.ToLower())
+            {
+                case "subject":
+                    return sortAsc ? query.OrderBy(x => x.Subject)
+                                   : query.OrderByDescending(x => x.Subject);
+
+                case "medicaidid":
+                    return sortAsc ? query.OrderBy(x => x.MedicaidId)
+                                   : query.OrderByDescending(x => x.MedicaidId);
+
+                case "regid":
+                    return sortAsc ? query.OrderBy(x => x.RegId)
+                                   : query.OrderByDescending(x => x.RegId);
+
+                case "providerid":
+                    return sortAsc ? query.OrderBy(x => x.ProviderId)
+                                   : query.OrderByDescending(x => x.ProviderId);
+
+                case "npi":
+                    return sortAsc ? query.OrderBy(x => x.Npi)
+                                   : query.OrderByDescending(x => x.Npi);
+
+                case "dateavailablefrom":
+                    return sortAsc ? query.OrderBy(x => x.DateAvailableFrom)
+                                   : query.OrderByDescending(x => x.DateAvailableFrom);
+
+                case "dateavailableto":
+                    return sortAsc ? query.OrderBy(x => x.DateAvailableTo)
+                                   : query.OrderByDescending(x => x.DateAvailableTo);
+
+                default:
+                    return query; // fallback (no crash)
+            }
+        }
+
+        private IQueryable<CorrespondenceSearchResult> ApplyStringFilter(
+    IQueryable<CorrespondenceSearchResult> query,
+    Func<CorrespondenceSearchResult, string> selector,
+    Filter f)
+        {
+            var val = f.Value.ToLower();
+
+            return f.Operator switch
+            {
+                "eq" => query.Where(x => selector(x).ToLower() == val),
+                "neq" => query.Where(x => selector(x).ToLower() != val),
+                "contains" => query.Where(x => selector(x).ToLower().Contains(val)),
+                "startsWith" => query.Where(x => selector(x).ToLower().StartsWith(val)),
+                "endsWith" => query.Where(x => selector(x).ToLower().EndsWith(val)),
+                _ => query
+            };
+        }
+
+        private IQueryable<CorrespondenceSearchResult> ApplyDateFilter(
+    IQueryable<CorrespondenceSearchResult> query,
+    Func<CorrespondenceSearchResult, DateTime> selector,
+    Filter f)
+        {
+            var parts = f.Value.Split('|');
+
+            DateTime.TryParse(parts[0], out var d1);
+            DateTime.TryParse(parts.Length > 1 ? parts[1] : null, out var d2);
+
+            return f.Operator switch
+            {
+                "eq" => query.Where(x => selector(x).Date == d1.Date),
+                "lt" => query.Where(x => selector(x).Date < d1.Date),
+                "gt" => query.Where(x => selector(x).Date > d1.Date),
+                "lte" => query.Where(x => selector(x).Date <= d1.Date),
+                "gte" => query.Where(x => selector(x).Date >= d1.Date),
+                "between" => query.Where(x => selector(x).Date >= d1.Date && selector(x).Date <= d2.Date),
+                _ => query
+            };
+        }
+
         [HttpPost]
         [Route("search")]
-        public IActionResult Search([FromBody] CorrespondenceGridRequest request)
+        public IActionResult Search([FromBody] CorrespondenceSearchRequest search)
         {
-            var search = request.SearchModel;
-            var page = request.Page;
-
             var query = MockData.AsQueryable();
 
-            // ✅ Business filters
+            // 🔥 1. BUSINESS FILTERS
             if (!string.IsNullOrEmpty(search.RegId))
                 query = query.Where(x => x.RegId == search.RegId);
 
@@ -228,21 +354,40 @@ namespace MaximusWebAPI.Controllers
             if (search.DateTo.HasValue)
                 query = query.Where(x => x.DateAvailableTo <= search.DateTo.Value);
 
-            // ✅ total count
-            var totalRecords = query.Count();
+            // 🔥 2. GLOBAL SEARCH (plugin → searchText)
+            if (!string.IsNullOrWhiteSpace(search.SearchText))
+            {
+                var s = search.SearchText.ToLower();
 
-            // ✅ paging only
+                query = query.Where(x =>
+                    x.Subject.ToLower().Contains(s) ||
+                    x.MedicaidId.ToLower().Contains(s) ||
+                    x.RegId.ToLower().Contains(s) ||
+                    x.ProviderId.ToLower().Contains(s) ||
+                    x.Npi.ToLower().Contains(s)
+                );
+            }
+
+            // 🔥 3. COLUMN FILTERS (plugin filters[])
+            query = ApplyFilters(query, search.Filters);
+
+            // 🔥 4. TOTAL COUNT (before paging)
+            var total = query.Count();
+
+            // 🔥 5. SORTING
+            query = ApplySorting(query, search.SortKey, search.SortAsc);
+
+            // 🔥 6. PAGING
             var data = query
-                .Skip((page.Page - 1) * page.PageSize)
-                .Take(page.PageSize)
+                .Skip((search.Page - 1) * search.PageSize)
+                .Take(search.PageSize)
                 .ToList();
 
             return Ok(new
             {
                 data,
-                totalRecords
+                total
             });
         }
-
     }
 }
