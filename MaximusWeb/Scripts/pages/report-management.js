@@ -1,5 +1,32 @@
 ﻿$(function () {
 
+
+
+    $('#btnAlert').on('click', function () {
+        $.modalPlugin.alert({
+            title: 'Success',
+            message: 'Data saved successfully!',
+            onOk: function () {
+                console.log('Alert OK clicked');
+            }
+        });
+    });
+
+    $('#btnConfirm').on('click', function () {
+        $.modalPlugin.confirm({
+            title: 'Delete Record',
+            message: 'Are you sure you want to delete this record?',
+            onConfirm: function () {
+                console.log('User confirmed delete');
+            },
+            onCancel: function () {
+                console.log('User cancelled');
+            }
+        });
+    });
+
+
+
     // By default, show the Report Management section
     $('#reportManagement').show();
     $('#myDrafts').hide();

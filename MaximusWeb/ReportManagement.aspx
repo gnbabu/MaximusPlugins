@@ -388,6 +388,11 @@
 
                 <div class="maximus-accordion-content">
                     <div class="p-3">
+
+                        <button id="btnAlert" class="btn btn-success">Show Alert</button>
+                        <button id="btnConfirm" class="btn btn-danger">Show Confirm</button>
+
+
                         <div class="report-item">
                             <span class="report-icon"><span class="material-icons-outlined">description</span></span>
                             <span class="report-name">Credentialing Clean File Report</span>
