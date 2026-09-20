@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MaximusWeb", "MaximusWeb\Ma
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MaximusWebAPI", "MaximusWebAPI\MaximusWebAPI.csproj", "{3E2FCA61-A5B5-462C-9E01-4214A45F0FFE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MaximusWebBS3", "MaximusWebBS3\MaximusWebBS3.csproj", "{18D3BB03-80D8-4C6E-8E98-A6A6BBCBE186}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{3E2FCA61-A5B5-462C-9E01-4214A45F0FFE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3E2FCA61-A5B5-462C-9E01-4214A45F0FFE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3E2FCA61-A5B5-462C-9E01-4214A45F0FFE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{18D3BB03-80D8-4C6E-8E98-A6A6BBCBE186}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{18D3BB03-80D8-4C6E-8E98-A6A6BBCBE186}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{18D3BB03-80D8-4C6E-8E98-A6A6BBCBE186}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{18D3BB03-80D8-4C6E-8E98-A6A6BBCBE186}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
