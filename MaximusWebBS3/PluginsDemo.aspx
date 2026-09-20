@@ -7,8 +7,23 @@
     <title>Maximus Plugins (Bootstrap 3) &ndash; Demo</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <!-- Vendor CSS (local, Bootstrap 3.4.1) -->
-    <link href="Content/bootstrap.min.css" rel="stylesheet" />
+    <!-- Vendor CSS (CDN, Bootstrap 3.4.1 - falls back to the local copy in Content/ if the CDN is unreachable) -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet" />
+    <script>
+        // Bootstrap's ".hidden" utility forces display:none; a plain <div> defaults
+        // to display:block, so if it's still visible the CDN stylesheet didn't load.
+        document.write('<div id="bs-cdn-test" class="hidden"></div>');
+    </script>
+    <script>
+        (function () {
+            var test = document.getElementById('bs-cdn-test');
+            var cdnLoaded = test && getComputedStyle(test).display === 'none';
+            if (test) test.parentNode.removeChild(test);
+            if (!cdnLoaded) {
+                document.write('<link href="Content/bootstrap.min.css" rel="stylesheet" />');
+            }
+        })();
+    </script>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
 
     <!-- Plugin Themes -->
@@ -323,10 +338,15 @@
         </div>
     </div>
 
-    <!-- Vendor JS (local, no CDN dependency) -->
-    <script src="Scripts/jquery-3.7.0.min.js"></script>
-    <script src="Scripts/bootstrap.min.js"></script>
-    <script src="Scripts/moment.min.js"></script>
+    <!-- Vendor JS (CDN, each with a local fallback in Scripts/ if the CDN didn't load) -->
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+    <script>window.jQuery || document.write('<script src="Scripts/jquery-3.7.0.min.js"><\/script>')</script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script>window.jQuery && window.jQuery.fn && window.jQuery.fn.modal || document.write('<script src="Scripts/bootstrap.min.js"><\/script>')</script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
+    <script>window.moment || document.write('<script src="Scripts/moment.min.js"><\/script>')</script>
 
     <!-- Plugins -->
     <script src="Scripts/plugins/accordion/maximus.accordion.js"></script>
